@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {Ref, useMemo} from 'react';
 import {View, ViewProps} from 'react-native';
 import {
   MarginType,
@@ -22,7 +22,7 @@ export interface BoxProps extends ViewProps {
  * Box is component serves as a wrapper component for most of the styling properties.
  * Also, for references check it out {@link https://github.com/yamankatby/react-native-flex-layout/blob/main/src/Box.tsx}
  */
-const Box = (props: BoxProps) => {
+const Box = React.forwardRef((props: BoxProps, ref: Ref<View>) => {
   const {as, style, position, width, height, padding, margin, ...rest} = props;
 
   const boxStyle = useMemo(() => {
@@ -51,11 +51,12 @@ const Box = (props: BoxProps) => {
 
   if (as) {
     return React.cloneElement(as, {
+      ref,
       style: [boxStyle, style],
       ...rest,
     });
   }
-  return <View style={[boxStyle, style]} />;
-};
+  return <View ref={ref} style={[boxStyle, style]} />;
+});
 
 export default Box;
