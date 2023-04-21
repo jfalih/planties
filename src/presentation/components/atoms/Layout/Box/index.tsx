@@ -1,5 +1,5 @@
 import React, {Ref, useMemo} from 'react';
-import {View, ViewProps} from 'react-native';
+import {View, ViewProps, ViewStyle} from 'react-native';
 import {
   MarginType,
   PaddingType,
@@ -13,6 +13,7 @@ export interface BoxProps extends ViewProps {
   as?: React.ReactElement;
   height?: number;
   width?: number;
+  bgColor?: ViewStyle['backgroundColor'];
   padding?: PaddingType | number;
   margin?: MarginType | number;
   position?: PositionType | string;
@@ -23,7 +24,17 @@ export interface BoxProps extends ViewProps {
  * Also, for references check it out {@link https://github.com/yamankatby/react-native-flex-layout/blob/main/src/Box.tsx}
  */
 const Box = React.forwardRef((props: BoxProps, ref: Ref<View>) => {
-  const {as, style, position, width, height, padding, margin, ...rest} = props;
+  const {
+    as,
+    style,
+    position,
+    width,
+    height,
+    padding,
+    bgColor,
+    margin,
+    ...rest
+  } = props;
 
   const boxStyle = useMemo(() => {
     let paddingStyle, marginStyle, positionStyle;
@@ -46,8 +57,9 @@ const Box = React.forwardRef((props: BoxProps, ref: Ref<View>) => {
       ...marginStyle,
       width,
       height,
+      backgroundColor: bgColor,
     };
-  }, [position, padding, margin, width, height]);
+  }, [position, padding, margin, bgColor, width, height]);
 
   if (as) {
     return React.cloneElement(as, {

@@ -1,3 +1,3 @@
 import Box from './Box';
-
-export {Box};
+import Flex from './Flex';
+export {Box, Flex};

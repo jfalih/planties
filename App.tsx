@@ -24,6 +24,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {Box, Flex} from './src/presentation/components/atoms/Layout';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -72,6 +73,11 @@ function App(): JSX.Element {
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
         <Header />
+        <Flex flexDirection="column" items="center">
+          <Box width={50} height={50} bgColor="red" />
+          <Box width={50} height={50} bgColor="green" />
+          <Box width={50} height={50} bgColor="blue" />
+        </Flex>
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
