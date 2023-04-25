@@ -1,5 +1,5 @@
 #import "AppDelegate.h"
-
+#import "RNBootSplash.h" // ⬅️ add the header import RNBOOTSPLASH
 #import <React/RCTBundleURLProvider.h>
 
 @implementation AppDelegate
@@ -11,6 +11,8 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
 
+  UIView *rootView = self.window.rootViewController.view; // ⬅️ ❗️ only required for react-native >= 0.71
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView]; // ⬅️ initialize the splash screen
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 

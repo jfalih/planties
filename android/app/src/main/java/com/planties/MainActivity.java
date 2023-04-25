@@ -1,5 +1,10 @@
 package com.planties;
 
+// React Navigation & BOOTSPLASH Configuration
+import android.os.Bundle;
+// BOOTSPLASH Configuration
+import com.zoontek.rnbootsplash.RNBootSplash;
+
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
@@ -14,6 +19,16 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "planties";
+  }
+
+  /**
+   * React Navigation Configuration
+   * @param savedInstanceState
+   */
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    RNBootSplash.init(this); // ⬅️ initialize the splash screen
+    super.onCreate(null);
   }
 
   /**

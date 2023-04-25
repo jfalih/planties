@@ -1,5 +1,18 @@
 import {ViewStyle} from 'react-native/types';
 
+import React from 'react';
+
+/**
+ * Gets only the valid children of a component,
+ * and ignores any nullish or falsy child.
+ *
+ * @param children the children
+ */
+export function getValidChildren(children: React.ReactNode) {
+  return React.Children.toArray(children).filter(child =>
+    React.isValidElement(child),
+  ) as React.ReactElement[];
+}
 export interface PaddingType {
   paddingTop?: number;
   paddingBottom?: number;
@@ -24,6 +37,20 @@ export interface MarginType {
   marginLeft?: number;
   marginHorizontal?: number;
   marginVertical?: number;
+}
+
+export interface BorderWidthType {
+  borderTopWidth?: number;
+  borderBottomWidth?: number;
+  borderLeftWidth?: number;
+  borderRightWidth?: number;
+}
+
+export interface BorderColorType {
+  borderTopColor?: string;
+  borderBottomColor?: string;
+  borderLeftColor?: string;
+  borderRightColor?: string;
 }
 
 export const createPaddingStyle = (padding: PaddingType | number) => {
@@ -86,5 +113,39 @@ export const createPositionStyle = (position: PositionType | string) => {
     bottom,
     right,
     left,
+  };
+};
+
+export const createBorderColorStyle = (
+  borderColor: BorderColorType | string,
+) => {
+  if (typeof borderColor === 'string') {
+    return {borderColor};
+  }
+  const {borderTopColor, borderBottomColor, borderLeftColor, borderRightColor} =
+    borderColor;
+
+  return {
+    borderTopColor,
+    borderBottomColor,
+    borderLeftColor,
+    borderRightColor,
+  };
+};
+
+export const createBorderWidthStyle = (
+  borderWidth: BorderWidthType | number,
+) => {
+  if (typeof borderWidth === 'number') {
+    return {borderWidth};
+  }
+  const {borderTopWidth, borderBottomWidth, borderLeftWidth, borderRightWidth} =
+    borderWidth;
+
+  return {
+    borderTopWidth,
+    borderBottomWidth,
+    borderLeftWidth,
+    borderRightWidth,
   };
 };

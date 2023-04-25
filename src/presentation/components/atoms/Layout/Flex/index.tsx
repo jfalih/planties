@@ -3,23 +3,23 @@ import {useMemo} from 'react';
 import Box, {BoxProps} from '../Box';
 import {FlexStyle} from 'react-native/types';
 
-interface FlexProps extends BoxProps {
+export interface FlexProps extends BoxProps {
   fill?: boolean;
   wrap?: boolean;
-  flexDirection?: FlexStyle['flexDirection'];
+  inline?: boolean;
   content?: FlexStyle['alignContent'];
   self?: FlexStyle['alignSelf'];
   items?: FlexStyle['alignItems'];
   justify?: FlexStyle['justifyContent'];
-  direction?: FlexStyle['direction'];
+  direction?: FlexStyle['flexDirection'];
 }
 
 const Flex = (props: FlexProps) => {
   const {
     fill,
     wrap,
-    flexDirection = 'row',
-    direction,
+    inline,
+    direction = 'row',
     justify,
     self,
     items,
@@ -35,6 +35,11 @@ const Flex = (props: FlexProps) => {
     [wrap],
   );
 
+  const flexDirection = useMemo(
+    () => (inline ? 'row' : direction || 'column'),
+    [direction, inline],
+  );
+
   const flexStyle = useMemo(() => {
     return {
       flex,
@@ -44,9 +49,8 @@ const Flex = (props: FlexProps) => {
       justifyContent: justify,
       alignSelf: self,
       alignItems: items,
-      direction,
     };
-  }, [flex, content, flexWrap, flexDirection, justify, self, items, direction]);
+  }, [flex, content, flexWrap, flexDirection, justify, self, items]);
 
   return <Box style={[flexStyle, style]} {...rest} />;
 };

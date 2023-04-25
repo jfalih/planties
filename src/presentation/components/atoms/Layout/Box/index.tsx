@@ -1,10 +1,14 @@
 import React, {Ref, useMemo} from 'react';
 import {View, ViewProps, ViewStyle} from 'react-native';
 import {
+  BorderColorType,
+  BorderWidthType,
   MarginType,
   PaddingType,
   PositionType,
   craeateMarginStyle,
+  createBorderColorStyle,
+  createBorderWidthStyle,
   createPaddingStyle,
   createPositionStyle,
 } from '../helper';
@@ -13,10 +17,12 @@ export interface BoxProps extends ViewProps {
   as?: React.ReactElement;
   height?: number;
   width?: number;
-  bgColor?: ViewStyle['backgroundColor'];
   padding?: PaddingType | number;
   margin?: MarginType | number;
   position?: PositionType | string;
+  backgroundColor?: ViewStyle['backgroundColor'];
+  borderWidth?: BorderWidthType | number;
+  borderColor?: BorderColorType | string;
 }
 
 /**
@@ -31,13 +37,19 @@ const Box = React.forwardRef((props: BoxProps, ref: Ref<View>) => {
     width,
     height,
     padding,
-    bgColor,
     margin,
+    borderWidth,
+    borderColor,
+    backgroundColor,
     ...rest
   } = props;
 
   const boxStyle = useMemo(() => {
-    let paddingStyle, marginStyle, positionStyle;
+    let paddingStyle,
+      marginStyle,
+      positionStyle,
+      borderWidthStyle,
+      borderColorStyle;
 
     if (padding) {
       paddingStyle = createPaddingStyle(padding);
@@ -51,24 +63,51 @@ const Box = React.forwardRef((props: BoxProps, ref: Ref<View>) => {
       positionStyle = createPositionStyle(position);
     }
 
+    if (borderWidth) {
+      borderWidthStyle = createBorderWidthStyle(borderWidth);
+    }
+
+    if (borderColor) {
+      borderColorStyle = createBorderColorStyle(borderColor);
+    }
+
     return {
       ...positionStyle,
       ...paddingStyle,
       ...marginStyle,
+      ...borderWidthStyle,
+      ...borderColorStyle,
       width,
       height,
-      backgroundColor: bgColor,
+      backgroundColor,
     };
-  }, [position, padding, margin, bgColor, width, height]);
+  }, [
+    padding,
+    margin,
+    position,
+    borderWidth,
+    borderColor,
+    width,
+    height,
+    backgroundColor,
+  ]);
 
   if (as) {
+    if (typeof as?.props.style === 'function') {
+      return React.cloneElement(as, {
+        ref,
+        style: (state: any) => [boxStyle, as?.props.style(state), style],
+        ...rest,
+      });
+    }
+
     return React.cloneElement(as, {
       ref,
       style: [boxStyle, style],
       ...rest,
     });
   }
-  return <View ref={ref} style={[boxStyle, style]} />;
+  return <View ref={ref} style={[boxStyle, style]} {...rest} />;
 });
 
 export default Box;
