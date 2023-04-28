@@ -48,6 +48,7 @@ const Welcome: React.FC<WelcomeProps> = React.memo(
           />
         </HStack>
         <VStack
+          spacing={spacing.standard}
           backgroundColor={pallate.neutral['01']}
           padding={spacing.medium}>
           <HStack>
@@ -67,17 +68,28 @@ const Welcome: React.FC<WelcomeProps> = React.memo(
             </VStack>
             //Todo Add Buttons Here
           </HStack>
-          <FlashList
-            data={[1, 2, 3]}
-            renderItem={({item}) => (
-              <FlexAnimated
-                height={150}
-                width={130}
-                backgroundColor={pallate.neutral['03']}>
-                <Box as={<Image />} />
-              </FlexAnimated>
-            )}
-          />
+          <Box height={150}>
+            <FlashList
+              data={[1, 2, 3]}
+              horizontal
+              estimatedItemSize={150}
+              renderItem={({item}) => (
+                <FlexAnimated
+                  height={150}
+                  width={130}
+                  borderRadius={12}
+                  backgroundColor={pallate.neutral['02']}>
+                  <Box
+                    position={{
+                      top: 5,
+                      left: 10,
+                    }}
+                    as={<Image />}
+                  />
+                </FlexAnimated>
+              )}
+            />
+          </Box>
         </VStack>
       </VStack>
     );
