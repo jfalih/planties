@@ -31,7 +31,6 @@ const Pressable: React.FC<PressableProps> = props => {
       style={containerStyle}
       as={
         <RNPressable
-          onPress={() => console.log('hello')}
           android_disableSound={androidDisableSound}
           android_ripple={androidRipple}
           style={({pressed}) => [

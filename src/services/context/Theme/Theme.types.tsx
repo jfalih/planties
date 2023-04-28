@@ -56,7 +56,17 @@ export type TypographyWeight =
   | '02'
   | '03'
   | '04'
-  | '05';
+  | '05'
+  | string;
+
+export type SpacingType =
+  | 'tiny'
+  | 'small'
+  | 'standard'
+  | 'medium'
+  | 'large'
+  | 'extraLarge';
+export type Spacing = Record<SpacingType, number>;
 
 export type Typography = Record<
   TypographyType,

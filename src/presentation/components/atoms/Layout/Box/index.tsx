@@ -2,17 +2,19 @@ import React, {Ref, useMemo} from 'react';
 import {View, ViewProps, ViewStyle} from 'react-native';
 import {
   BorderColorType,
+  BorderRadiusType,
   BorderWidthType,
   MarginType,
   PaddingType,
   PositionType,
   craeateMarginStyle,
   createBorderColorStyle,
+  createBorderRadiusStyle,
   createBorderWidthStyle,
   createPaddingStyle,
   createPositionStyle,
 } from '../helper';
-
+import Reanimated from 'react-native-reanimated';
 export interface BoxProps extends ViewProps {
   as?: React.ReactElement;
   height?: number;
@@ -23,6 +25,7 @@ export interface BoxProps extends ViewProps {
   backgroundColor?: ViewStyle['backgroundColor'];
   borderWidth?: BorderWidthType | number;
   borderColor?: BorderColorType | string;
+  borderRadius?: BorderRadiusType | number;
 }
 
 /**
@@ -40,6 +43,7 @@ const Box = React.forwardRef((props: BoxProps, ref: Ref<View>) => {
     margin,
     borderWidth,
     borderColor,
+    borderRadius,
     backgroundColor,
     ...rest
   } = props;
@@ -49,7 +53,8 @@ const Box = React.forwardRef((props: BoxProps, ref: Ref<View>) => {
       marginStyle,
       positionStyle,
       borderWidthStyle,
-      borderColorStyle;
+      borderColorStyle,
+      borderRadiusStyle;
 
     if (padding) {
       paddingStyle = createPaddingStyle(padding);
@@ -71,12 +76,17 @@ const Box = React.forwardRef((props: BoxProps, ref: Ref<View>) => {
       borderColorStyle = createBorderColorStyle(borderColor);
     }
 
+    if (borderRadius) {
+      borderRadiusStyle = createBorderRadiusStyle(borderRadius);
+    }
+
     return {
       ...positionStyle,
       ...paddingStyle,
       ...marginStyle,
       ...borderWidthStyle,
       ...borderColorStyle,
+      ...borderRadiusStyle,
       width,
       height,
       backgroundColor,
@@ -87,6 +97,7 @@ const Box = React.forwardRef((props: BoxProps, ref: Ref<View>) => {
     position,
     borderWidth,
     borderColor,
+    borderRadius,
     width,
     height,
     backgroundColor,
@@ -103,11 +114,11 @@ const Box = React.forwardRef((props: BoxProps, ref: Ref<View>) => {
 
     return React.cloneElement(as, {
       ref,
-      style: [boxStyle, style],
+      style: [boxStyle, style, as.props.style],
       ...rest,
     });
   }
   return <View ref={ref} style={[boxStyle, style]} {...rest} />;
 });
-
+export const BoxAnimated = Reanimated.createAnimatedComponent(Box);
 export default Box;

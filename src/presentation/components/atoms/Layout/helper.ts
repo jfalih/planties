@@ -46,6 +46,12 @@ export interface BorderWidthType {
   borderRightWidth?: number;
 }
 
+export interface BorderRadiusType {
+  borderTopLeftRadius?: number;
+  borderTopRightRadius?: number;
+  borderBottomLeftRadius?: number;
+  borderBottomRightRadius?: number;
+}
 export interface BorderColorType {
   borderTopColor?: string;
   borderBottomColor?: string;
@@ -108,7 +114,7 @@ export const createPositionStyle = (position: PositionType | string) => {
 
   const {top, bottom, set, right, left} = position;
   return {
-    position: set,
+    position: set || 'absolute',
     top,
     bottom,
     right,
@@ -147,5 +153,26 @@ export const createBorderWidthStyle = (
     borderBottomWidth,
     borderLeftWidth,
     borderRightWidth,
+  };
+};
+
+export const createBorderRadiusStyle = (
+  borderRadius: BorderRadiusType | number,
+) => {
+  if (typeof borderRadius === 'number') {
+    return {borderRadius};
+  }
+  const {
+    borderTopLeftRadius,
+    borderTopRightRadius,
+    borderBottomLeftRadius,
+    borderBottomRightRadius,
+  } = borderRadius;
+
+  return {
+    borderTopLeftRadius,
+    borderTopRightRadius,
+    borderBottomLeftRadius,
+    borderBottomRightRadius,
   };
 };

@@ -7,7 +7,7 @@ export interface DividerProps extends BoxProps {
    *
    * @default 'horizontal'
    */
-  orientation?: 'horizontal' | 'vertical';
+  horizontal?: boolean;
 
   /**
    * The thickness of the divider.
@@ -25,19 +25,19 @@ export interface DividerProps extends BoxProps {
 }
 
 const Divider: React.FC<DividerProps> = ({
-  orientation = 'horizontal',
+  horizontal,
   thickness = 1,
-  color = '#E0E0E0',
+  color,
   style,
   ...rest
 }) => {
   const dividerStyle = useMemo(() => {
-    if (orientation === 'horizontal') {
-      return {height: thickness, backgroundColor: color};
-    } else {
+    if (horizontal) {
       return {width: thickness, backgroundColor: color};
+    } else {
+      return {height: thickness, backgroundColor: color};
     }
-  }, [orientation, thickness, color]);
+  }, [horizontal, thickness, color]);
 
   return <Box style={[dividerStyle, style]} {...rest} />;
 };

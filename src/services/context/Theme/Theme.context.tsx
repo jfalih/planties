@@ -1,5 +1,11 @@
 import React, {createContext, useContext} from 'react';
-import {ColorScheme, Elevations, Palette, Typography} from './Theme.types';
+import {
+  ColorScheme,
+  Elevations,
+  Palette,
+  Spacing,
+  Typography,
+} from './Theme.types';
 import {defaultTheme} from './defaultTheme';
 
 export interface Theme {
@@ -7,6 +13,7 @@ export interface Theme {
   elevations: Elevations;
   pallate: Palette;
   typography: Typography;
+  spacing: Spacing;
 }
 
 export interface ThemeProviderProps {

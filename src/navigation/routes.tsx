@@ -1,4 +1,3 @@
-import AuthNavigation from './Auth';
 import {Home} from '../presentation/pages';
 import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
 

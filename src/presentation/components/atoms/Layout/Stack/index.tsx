@@ -1,8 +1,9 @@
-import React, {useMemo} from 'react';
-import {StyleProp, ViewStyle} from 'react-native';
+import React, {Ref, useMemo} from 'react';
+import {StyleProp, View, ViewStyle} from 'react-native';
 import Flex, {FlexProps} from '../Flex';
 import Divider from '../Divider';
 import {getValidChildren} from '../helper';
+import Animated from 'react-native-reanimated';
 
 export interface StackProps extends FlexProps {
   /**
@@ -32,24 +33,23 @@ export interface StackProps extends FlexProps {
   shouldWrapChildren?: boolean;
 }
 
-const Stack: React.FC<StackProps> = ({
-  divider = false,
-  dividerStyle,
-  ...rest
-}) => {
-  const direction = useMemo(() => {
-    return rest.inline ? 'row' : rest.direction || 'column';
-  }, [rest.inline, rest.direction]);
+const Stack = React.forwardRef(
+  (
+    {divider = false, dividerStyle, spacing, ...rest}: StackProps,
+    ref: Ref<View>,
+  ) => {
+    const direction = useMemo(() => {
+      return rest.inline ? 'row' : rest.direction || 'column';
+    }, [rest.inline, rest.direction]);
 
-  const validChildren = getValidChildren(rest.children);
+    const validChildren = getValidChildren(rest.children);
 
-  const clones = !divider
-    ? validChildren
-    : validChildren.map((child: React.ReactElement, index: number) => {
+    const clones = validChildren.map(
+      (child: React.ReactElement, index: number) => {
         const key = typeof child.key !== 'undefined' ? child.key : index;
         const isLast = index + 1 === validChildren.length;
 
-        if (!divider) {
+        if (!divider && !spacing) {
           return child;
         }
 
@@ -57,11 +57,8 @@ const Stack: React.FC<StackProps> = ({
           divider
         ) : (
           <Divider
-            orientation={
-              direction === 'row' || direction === 'row-reverse'
-                ? 'vertical'
-                : 'horizontal'
-            }
+            thickness={spacing}
+            horizontal={direction === 'row' || direction === 'row-reverse'}
           />
         );
 
@@ -73,25 +70,49 @@ const Stack: React.FC<StackProps> = ({
         const _divider = isLast ? null : clonedDivider;
 
         return [child, _divider];
-      });
+      },
+    );
 
-  return <Flex {...rest}>{clones}</Flex>;
-};
+    return (
+      <Flex ref={ref} {...rest}>
+        {clones}
+      </Flex>
+    );
+  },
+);
 
-export default Stack;
+export default React.memo(Stack);
 
 export interface HStackProps extends Omit<StackProps, 'inline' | 'direction'> {
   reverse?: boolean;
 }
 
-export const HStack: React.FC<HStackProps> = ({reverse, ...rest}) => {
-  return <Stack {...rest} direction={reverse ? 'row-reverse' : 'row'} />;
-};
+export const HStack = React.memo(
+  React.forwardRef((props: HStackProps, ref: Ref<View>) => {
+    const {reverse, ...rest} = props;
+    return (
+      <Stack ref={ref} {...rest} direction={reverse ? 'row-reverse' : 'row'} />
+    );
+  }),
+);
+
+export const HStackAnimated = Animated.createAnimatedComponent(HStack);
 
 export interface VStackProps extends Omit<StackProps, 'inline' | 'direction'> {
   reverse?: boolean;
 }
 
-export const VStack: React.FC<VStackProps> = ({reverse, ...rest}) => {
-  return <Stack {...rest} direction={reverse ? 'column-reverse' : 'column'} />;
-};
+export const VStack = React.memo(
+  React.forwardRef((props: VStackProps, ref: Ref<View>) => {
+    const {reverse, ...rest} = props;
+    return (
+      <Stack
+        ref={ref}
+        {...rest}
+        direction={reverse ? 'column-reverse' : 'column'}
+      />
+    );
+  }),
+);
+
+export const VStackAnimated = Animated.createAnimatedComponent(VStack);

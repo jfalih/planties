@@ -3,82 +3,96 @@ import {Theme} from './Theme.context';
 
 import lightColors from './_lightColors.json';
 import darkColors from './_darkColors.json';
+import {moderateScale} from '../../../core/utils/scale';
 
 const typography = {
   title: {
     '01': {
       fontFamily: 'Lexend-SemiBold',
-      fontSize: 24,
+      fontWeight: '600',
+      fontSize: moderateScale(24),
     },
     '02': {
       fontFamily: 'Lexend-Bold',
-      fontSize: 20,
+      fontSize: moderateScale(20),
     },
     '03': {
       fontFamily: 'Lexend-Bold',
-      fontSize: 18,
+      fontSize: moderateScale(18),
     },
     '04': {
       fontFamily: 'Lexend-Bold',
-      fontSize: 16,
+      fontSize: moderateScale(16),
     },
     '05': {
       fontFamily: 'Lexend-SemiBold',
-      fontSize: 14,
+      fontSize: moderateScale(14),
     },
     '06': {
       fontFamily: 'Lexend-SemiBold',
-      fontSize: 12,
+      fontSize: moderateScale(12),
     },
     appBar: {
       fontFamily: 'Lexend-Bold',
-      fontSize: 14,
+      fontSize: moderateScale(14),
     },
     navbar: {
       fontFamily: 'Lexend-Medium',
-      fontSize: 14,
+      fontSize: moderateScale(14),
     },
   },
   subtitles: {
     '01': {
       fontFamily: 'Lexend-Light',
-      fontSize: 12,
+      fontWeight: '300',
+      fontSize: moderateScale(12),
     },
     '02': {
       fontFamily: 'Lexend-Medium',
-      fontSize: 10,
+      fontWeight: '500',
+      fontSize: moderateScale(10),
     },
     '03': {
       fontFamily: 'Lexend-Regular',
-      fontSize: 8,
+      fontSize: moderateScale(8),
     },
     appBar: {
       fontFamily: 'Lexend-Light',
-      fontSize: 10,
+      fontWeight: '300',
+      fontSize: moderateScale(10),
     },
   },
   button: {},
   body: {
     '01': {
       fontFamily: 'Poppins-Regular',
-      fontSize: 12,
+      fontSize: moderateScale(12),
     },
     '02': {
       fontFamily: 'Poppins-Regular',
-      fontSize: 10,
+      fontSize: moderateScale(10),
     },
   },
   caption: {},
   selection: {
     active: {
       fontFamily: 'Lexend-Bold',
-      fontSize: 12,
+      fontSize: moderateScale(12),
     },
     inactive: {
       fontFamily: 'Poppins-Regular',
-      fontSize: 12,
+      fontSize: moderateScale(12),
     },
   },
+};
+
+const spacing = {
+  tiny: 4,
+  small: 6,
+  standard: 12,
+  medium: 18,
+  large: 24,
+  extraLarge: 30,
 };
 
 export const defaultTheme: Theme = {
@@ -536,6 +550,7 @@ export const defaultTheme: Theme = {
   },
   pallate: lightColors,
   typography,
+  spacing,
 };
 
 export const darkTheme: Theme = {
