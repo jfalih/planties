@@ -12,7 +12,6 @@
 		060BB0DA45D140BD8FBEB628 /* Poppins-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D24D5B8F2FF04BC497C619C0 /* Poppins-SemiBoldItalic.ttf */; };
 		0AACD2304DD54FE68B73BCF4 /* Lexend-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6F17C7040FB4A36B0218DBE /* Lexend-Medium.ttf */; };
 		0C93EA56391640FAAA73CC91 /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A7634BBD8234118ABADFB37 /* Poppins-Black.ttf */; };
-		102E2BC4A5C312C47E8258B2 /* libPods-planties.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF59CD5F50CDB56950A59FCD /* libPods-planties.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -22,9 +21,9 @@
 		44DC933BAEF241AFA9B321A7 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6C5C82F2BAAB4FA1B95AB051 /* Poppins-Regular.ttf */; };
 		45CED14F43B74D3E8CB8DB31 /* Poppins-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B329E7D5E6F34628945FDBE0 /* Poppins-ExtraBoldItalic.ttf */; };
 		4A28C669C1784F958706A0F2 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC03691EC5214E1EB9E3BAA8 /* Poppins-Light.ttf */; };
-		517FC0AD138148D4215A4C0B /* libPods-planties-plantiesTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 974211E0FC04D11EDBF30F21 /* libPods-planties-plantiesTests.a */; };
 		5290E6E6A05C43B3AEB22633 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5BD36B88D5944A6B6B9A782 /* Poppins-Italic.ttf */; };
 		55DCA8ECFF074E4BAA5B2263 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 273CF1A2E93C4B7D8C7750D1 /* Poppins-Medium.ttf */; };
+		57247EDBAA5235B31523F803 /* libPods-planties.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6C54F953A9A8A971CFD006C /* libPods-planties.a */; };
 		64570B5E3F724A91A9C655AC /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6473872B5784DCC9F7D59BC /* Poppins-ExtraLight.ttf */; };
 		68C46F0DFE9F49F791CADE5C /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F08D27D49B364A0B8F4C29FC /* Poppins-BlackItalic.ttf */; };
 		72A84FA73CAF48A2830CA202 /* Poppins-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BF6EA1C26A54A4A9FA124D4 /* Poppins-LightItalic.ttf */; };
@@ -40,6 +39,7 @@
 		CB4FE63D4FB7400EAD402B8A /* Lexend-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A9145E0C5F947DDBF88250F /* Lexend-ExtraBold.ttf */; };
 		D06CF8DCB405492C89EF7191 /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF417477C25641C3A6DB753D /* Poppins-ThinItalic.ttf */; };
 		D1245464C10E417BB4E582F2 /* Lexend-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DA96A7ECDE6F4662B612889D /* Lexend-Light.ttf */; };
+		D421A750B9F802131DECDF87 /* libPods-planties-plantiesTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B64AC8CD0EF4545BAABD15BC /* libPods-planties-plantiesTests.a */; };
 		EB89B8B2058D45628095A8B5 /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1558EFDEFC0C465CABF13F93 /* Poppins-BoldItalic.ttf */; };
 		FB19EEEAE3224D7F919BCAB4 /* Lexend-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F14B4B083BF498B97649469 /* Lexend-ExtraLight.ttf */; };
 /* End PBXBuildFile section */
@@ -68,35 +68,35 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = planties/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = planties/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = planties/main.m; sourceTree = "<group>"; };
+		13B6C2954556AAB295D34AB0 /* Pods-planties.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-planties.debug.xcconfig"; path = "Target Support Files/Pods-planties/Pods-planties.debug.xcconfig"; sourceTree = "<group>"; };
 		1558EFDEFC0C465CABF13F93 /* Poppins-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-BoldItalic.ttf"; path = "../src/assets/fonts/Poppins-BoldItalic.ttf"; sourceTree = "<group>"; };
 		1F3FB10C29F7F50A00E5DD4F /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = planties/BootSplash.storyboard; sourceTree = "<group>"; };
+		2698197FC45158C12B37E26C /* Pods-planties-plantiesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-planties-plantiesTests.debug.xcconfig"; path = "Target Support Files/Pods-planties-plantiesTests/Pods-planties-plantiesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		273CF1A2E93C4B7D8C7750D1 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Medium.ttf"; path = "../src/assets/fonts/Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		2BC9C7EFA3FD41CC9C02D45C /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBold.ttf"; path = "../src/assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
-		4B83BFCFD1CD216E1FF04449 /* Pods-planties-plantiesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-planties-plantiesTests.debug.xcconfig"; path = "Target Support Files/Pods-planties-plantiesTests/Pods-planties-plantiesTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3EDDF2A8531FC37F8AC52B49 /* Pods-planties.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-planties.release.xcconfig"; path = "Target Support Files/Pods-planties/Pods-planties.release.xcconfig"; sourceTree = "<group>"; };
 		5BF6EA1C26A54A4A9FA124D4 /* Poppins-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-LightItalic.ttf"; path = "../src/assets/fonts/Poppins-LightItalic.ttf"; sourceTree = "<group>"; };
 		5F14B4B083BF498B97649469 /* Lexend-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-ExtraLight.ttf"; path = "../src/assets/fonts/Lexend-ExtraLight.ttf"; sourceTree = "<group>"; };
-		66AF359ED65D3053AB38E475 /* Pods-planties-plantiesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-planties-plantiesTests.release.xcconfig"; path = "Target Support Files/Pods-planties-plantiesTests/Pods-planties-plantiesTests.release.xcconfig"; sourceTree = "<group>"; };
 		6C5C82F2BAAB4FA1B95AB051 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../src/assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		7A7634BBD8234118ABADFB37 /* Poppins-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Black.ttf"; path = "../src/assets/fonts/Poppins-Black.ttf"; sourceTree = "<group>"; };
-		7E157BA12CCC42332FCD8C5D /* Pods-planties.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-planties.debug.xcconfig"; path = "Target Support Files/Pods-planties/Pods-planties.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = planties/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		87C423165CA4B3A19577E1A0 /* Pods-planties-plantiesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-planties-plantiesTests.release.xcconfig"; path = "Target Support Files/Pods-planties-plantiesTests/Pods-planties-plantiesTests.release.xcconfig"; sourceTree = "<group>"; };
 		94152B8B7C874B5DB99A0517 /* Poppins-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Thin.ttf"; path = "../src/assets/fonts/Poppins-Thin.ttf"; sourceTree = "<group>"; };
-		974211E0FC04D11EDBF30F21 /* libPods-planties-plantiesTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-planties-plantiesTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C0102A935364C6B9138565A /* Lexend-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-SemiBold.ttf"; path = "../src/assets/fonts/Lexend-SemiBold.ttf"; sourceTree = "<group>"; };
 		B2BFD971668B42008C081D1F /* Poppins-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Bold.ttf"; path = "../src/assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		B329E7D5E6F34628945FDBE0 /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		B64AC8CD0EF4545BAABD15BC /* libPods-planties-plantiesTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-planties-plantiesTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA41F34423A4D72BBC46133 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../src/assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		C30AACDEAD5244CC944435D6 /* Poppins-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLightItalic.ttf"; path = "../src/assets/fonts/Poppins-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		C6F17C7040FB4A36B0218DBE /* Lexend-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-Medium.ttf"; path = "../src/assets/fonts/Lexend-Medium.ttf"; sourceTree = "<group>"; };
 		CF417477C25641C3A6DB753D /* Poppins-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ThinItalic.ttf"; path = "../src/assets/fonts/Poppins-ThinItalic.ttf"; sourceTree = "<group>"; };
-		CF59CD5F50CDB56950A59FCD /* libPods-planties.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-planties.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D24D5B8F2FF04BC497C619C0 /* Poppins-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBoldItalic.ttf"; path = "../src/assets/fonts/Poppins-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		D45B3000483647BD871046A7 /* Lexend-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-Thin.ttf"; path = "../src/assets/fonts/Lexend-Thin.ttf"; sourceTree = "<group>"; };
 		D488301230BF474ABC40AD49 /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-MediumItalic.ttf"; path = "../src/assets/fonts/Poppins-MediumItalic.ttf"; sourceTree = "<group>"; };
+		D6C54F953A9A8A971CFD006C /* libPods-planties.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-planties.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA96A7ECDE6F4662B612889D /* Lexend-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-Light.ttf"; path = "../src/assets/fonts/Lexend-Light.ttf"; sourceTree = "<group>"; };
 		DC03691EC5214E1EB9E3BAA8 /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../src/assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
 		E5BD36B88D5944A6B6B9A782 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Italic.ttf"; path = "../src/assets/fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; };
-		EBE4B9E7224E4B53A5081F8B /* Pods-planties.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-planties.release.xcconfig"; path = "Target Support Files/Pods-planties/Pods-planties.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F08D27D49B364A0B8F4C29FC /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-BlackItalic.ttf"; path = "../src/assets/fonts/Poppins-BlackItalic.ttf"; sourceTree = "<group>"; };
 		F6473872B5784DCC9F7D59BC /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLight.ttf"; path = "../src/assets/fonts/Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				517FC0AD138148D4215A4C0B /* libPods-planties-plantiesTests.a in Frameworks */,
+				D421A750B9F802131DECDF87 /* libPods-planties-plantiesTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,7 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				102E2BC4A5C312C47E8258B2 /* libPods-planties.a in Frameworks */,
+				57247EDBAA5235B31523F803 /* libPods-planties.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,8 +157,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				CF59CD5F50CDB56950A59FCD /* libPods-planties.a */,
-				974211E0FC04D11EDBF30F21 /* libPods-planties-plantiesTests.a */,
+				D6C54F953A9A8A971CFD006C /* libPods-planties.a */,
+				B64AC8CD0EF4545BAABD15BC /* libPods-planties-plantiesTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -198,10 +198,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7E157BA12CCC42332FCD8C5D /* Pods-planties.debug.xcconfig */,
-				EBE4B9E7224E4B53A5081F8B /* Pods-planties.release.xcconfig */,
-				4B83BFCFD1CD216E1FF04449 /* Pods-planties-plantiesTests.debug.xcconfig */,
-				66AF359ED65D3053AB38E475 /* Pods-planties-plantiesTests.release.xcconfig */,
+				13B6C2954556AAB295D34AB0 /* Pods-planties.debug.xcconfig */,
+				3EDDF2A8531FC37F8AC52B49 /* Pods-planties.release.xcconfig */,
+				2698197FC45158C12B37E26C /* Pods-planties-plantiesTests.debug.xcconfig */,
+				87C423165CA4B3A19577E1A0 /* Pods-planties-plantiesTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -248,12 +248,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "plantiesTests" */;
 			buildPhases = (
-				5A7E3AFC987BA624B873D803 /* [CP] Check Pods Manifest.lock */,
+				2D6335DEE9691CA156C359B9 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				AF52DE604ACBB944DA3EEF35 /* [CP] Embed Pods Frameworks */,
-				751A217C2A589529F5FF33DD /* [CP] Copy Pods Resources */,
+				7DE32635A0F8463B68F5F9A2 /* [CP] Embed Pods Frameworks */,
+				72A38A6CFA89B5ADE0994788 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -269,14 +269,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "planties" */;
 			buildPhases = (
-				4616CF038494F335B62B0546 /* [CP] Check Pods Manifest.lock */,
+				6F1C7EF4AA84BEE53DAF265D /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				C9618FC3F8E5E5EB7B682A9B /* [CP] Embed Pods Frameworks */,
-				BF88F5141BB5BF1353D09538 /* [CP] Copy Pods Resources */,
+				E5616DBFD86295FD7C72851E /* [CP] Embed Pods Frameworks */,
+				94D296F20F484DE3FAA28287 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -387,29 +387,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		4616CF038494F335B62B0546 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-planties-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5A7E3AFC987BA624B873D803 /* [CP] Check Pods Manifest.lock */ = {
+		2D6335DEE9691CA156C359B9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -431,7 +409,29 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		751A217C2A589529F5FF33DD /* [CP] Copy Pods Resources */ = {
+		6F1C7EF4AA84BEE53DAF265D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-planties-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		72A38A6CFA89B5ADE0994788 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -448,7 +448,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-planties-plantiesTests/Pods-planties-plantiesTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AF52DE604ACBB944DA3EEF35 /* [CP] Embed Pods Frameworks */ = {
+		7DE32635A0F8463B68F5F9A2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -465,7 +465,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-planties-plantiesTests/Pods-planties-plantiesTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BF88F5141BB5BF1353D09538 /* [CP] Copy Pods Resources */ = {
+		94D296F20F484DE3FAA28287 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -482,7 +482,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-planties/Pods-planties-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C9618FC3F8E5E5EB7B682A9B /* [CP] Embed Pods Frameworks */ = {
+		E5616DBFD86295FD7C72851E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -551,7 +551,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4B83BFCFD1CD216E1FF04449 /* Pods-planties-plantiesTests.debug.xcconfig */;
+			baseConfigurationReference = 2698197FC45158C12B37E26C /* Pods-planties-plantiesTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -578,7 +578,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 66AF359ED65D3053AB38E475 /* Pods-planties-plantiesTests.release.xcconfig */;
+			baseConfigurationReference = 87C423165CA4B3A19577E1A0 /* Pods-planties-plantiesTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -602,7 +602,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7E157BA12CCC42332FCD8C5D /* Pods-planties.debug.xcconfig */;
+			baseConfigurationReference = 13B6C2954556AAB295D34AB0 /* Pods-planties.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -629,7 +629,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EBE4B9E7224E4B53A5081F8B /* Pods-planties.release.xcconfig */;
+			baseConfigurationReference = 3EDDF2A8531FC37F8AC52B49 /* Pods-planties.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

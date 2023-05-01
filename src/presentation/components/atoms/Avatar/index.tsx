@@ -6,7 +6,7 @@ import {moderateScale} from '../../../../core/utils/scale';
 
 type SizeType = 'small' | 'medium' | 'large';
 
-interface AvatarProps extends ImageProps {
+export interface AvatarProps extends ImageProps {
   size?: SizeType;
   rounded?: boolean;
 }

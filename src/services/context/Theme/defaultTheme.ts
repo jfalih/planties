@@ -62,7 +62,33 @@ const typography = {
       fontSize: moderateScale(10),
     },
   },
-  button: {},
+  button: {
+    '01': {
+      fontFamily: 'Lexend-Medium',
+      fontWeight: '500',
+      fontSize: moderateScale(16),
+    },
+    '02': {
+      fontFamily: 'Lexend-Medium',
+      fontWeight: '500',
+      fontSize: moderateScale(15),
+    },
+    '03': {
+      fontFamily: 'Lexend-Medium',
+      fontWeight: '500',
+      fontSize: moderateScale(12),
+    },
+    '04': {
+      fontFamily: 'Lexend-Light',
+      fontWeight: '500',
+      fontSize: moderateScale(10),
+    },
+    tabItem: {
+      fontFamily: 'Lexend-Medium',
+      fontWeight: '500',
+      fontSize: moderateScale(10),
+    },
+  },
   body: {
     '01': {
       fontFamily: 'Poppins-Regular',

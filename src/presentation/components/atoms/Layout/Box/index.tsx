@@ -18,7 +18,7 @@ import Reanimated from 'react-native-reanimated';
 export interface BoxProps extends ViewProps {
   as?: React.ReactElement;
   height?: number;
-  width?: number;
+  width?: number | string;
   padding?: PaddingType | number;
   margin?: MarginType | number;
   position?: PositionType | string;

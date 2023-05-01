@@ -54,7 +54,7 @@ const Text: React.FC<TextProps> = props => {
       color,
       textDecorationLine,
     };
-  }, [type, color, typography, textDecorationLine, weight]);
+  }, [typography, type, weight, fill, color, textDecorationLine]);
 
   return (
     <RNText style={[textStyle, style]} {...rest}>

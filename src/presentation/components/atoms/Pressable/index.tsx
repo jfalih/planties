@@ -29,6 +29,7 @@ const Pressable: React.FC<PressableProps> = props => {
   return (
     <Flex
       style={containerStyle}
+      self="flex-start"
       as={
         <RNPressable
           android_disableSound={androidDisableSound}
