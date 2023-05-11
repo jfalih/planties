@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "808902657378",
+    "project_id": "planties-60e81",
+    "storage_bucket": "planties-60e81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808902657378:android:31302b73bf6df64ef7d83b",
+        "android_client_info": {
+          "package_name": "com.planties"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808902657378-j588lh9io3b32gahf6hv6gov8i7k07pa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.planties",
+            "certificate_hash": "d2fd8d5653dcdaaf0f298d266a5b1ef14870a71c"
+          }
+        },
+        {
+          "client_id": "808902657378-c1m6s08esqdditqjafkhbfncjrlmbo41.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7wOlKxTozVvqIxNW21PfxLV46_J95q6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808902657378-6pvi6incmrvu3kgeiiuafrrd1blqs643.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

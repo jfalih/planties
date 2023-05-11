@@ -1,7 +1,12 @@
 import React, {useMemo} from 'react';
 import {useColorScheme} from 'react-native';
-import {ThemeContext, ThemeProviderProps} from './Theme.context';
+import {Theme, ThemeContext} from './Theme.context';
 import {darkTheme, defaultTheme} from './defaultTheme';
+
+export interface ThemeProviderProps {
+  theme?: Theme;
+  children?: React.ReactNode;
+}
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = props => {
   const {theme, children} = props;

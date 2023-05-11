@@ -91,15 +91,28 @@ const typography = {
   },
   body: {
     '01': {
+      lineHeight: 18,
       fontFamily: 'Poppins-Regular',
       fontSize: moderateScale(12),
     },
     '02': {
+      lineHeight: 15,
       fontFamily: 'Poppins-Regular',
       fontSize: moderateScale(10),
     },
   },
-  caption: {},
+  caption: {
+    '01': {
+      fontFamily: 'Lexend-Regular',
+      fontWeight: '400',
+      fontSize: moderateScale(10),
+    },
+    tabItem: {
+      fontFamily: 'Lexend-Medium',
+      fontWeight: '500',
+      fontSize: moderateScale(10),
+    },
+  },
   selection: {
     active: {
       fontFamily: 'Lexend-Bold',

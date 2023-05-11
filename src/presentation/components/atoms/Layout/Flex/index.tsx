@@ -7,6 +7,7 @@ export interface FlexProps extends BoxProps {
   fill?: boolean;
   wrap?: boolean;
   inline?: boolean;
+  zIndex?: FlexStyle['zIndex'];
   content?: FlexStyle['alignContent'];
   self?: FlexStyle['alignSelf'];
   items?: FlexStyle['alignItems'];
@@ -25,6 +26,7 @@ const Flex = React.memo(
       self,
       items,
       content,
+      zIndex,
       style,
       ...rest
     } = props;
@@ -49,12 +51,13 @@ const Flex = React.memo(
         flex,
         flexWrap,
         flexDirection,
+        zIndex,
         alignContent: content,
         justifyContent: justify,
         alignSelf: self,
         alignItems: items,
       };
-    }, [flex, content, flexWrap, flexDirection, justify, self, items]);
+    }, [flex, content, zIndex, flexWrap, flexDirection, justify, self, items]);
 
     return <Box ref={ref} style={[flexStyle, style]} {...rest} />;
   }),

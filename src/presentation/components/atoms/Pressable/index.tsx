@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Platform,
   Pressable as RNPressable,
   PressableProps as RNPressableProps,
   ViewStyle,
@@ -21,7 +20,7 @@ const Pressable: React.FC<PressableProps> = props => {
   const {
     androidRipple,
     androidDisableSound,
-    shrink,
+    shrink = true,
     containerStyle,
     style,
     ...rest
@@ -36,12 +35,8 @@ const Pressable: React.FC<PressableProps> = props => {
           android_ripple={androidRipple}
           style={({pressed}) => [
             {
-              ...Platform.select({
-                ios: {
-                  opacity: pressed ? 0.2 : 1,
-                },
-              }),
-              transform: [{scale: pressed && shrink ? 0.9 : 1}],
+              opacity: pressed ? 0.6 : 1,
+              transform: [{scale: pressed && shrink ? 0.92 : 1}],
             },
             style as ViewStyle,
           ]}

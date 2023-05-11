@@ -40,16 +40,21 @@ const ListEmptyComponent = ({onPressAddPlant}) => {
           type="title"
           weight="05"
           color={pallate.neutral['05']}
-          text={'Kemu belum\nmemiliki taman'}
+          text={'Kemu belum\nmemiliki kebun'}
         />
         <Button
           onPress={onPressAddPlant}
           backgroundColor={pallate.neutral['05']}
           color={pallate.neutral['01']}
-          text="Tambah Taman"
+          text={{
+            type: 'button',
+            text: 'Tambah Kebun',
+            weight: 'tabItem',
+            color: pallate.neutral['01'],
+          }}
           icon={{
             name: 'IconApps',
-            size: 18,
+            size: 16,
             color: pallate.neutral['01'],
             stroke: 2.5,
           }}
@@ -98,13 +103,18 @@ const Welcome: React.FC<WelcomeProps> = React.memo(
               text={description}
             />
             <Button
+              onPress={onPressAddPlant}
               backgroundColor={pallate.primary['04']}
               color={pallate.neutral['01']}
-              onPress={onPressScan}
-              text="Scan Tanaman"
+              text={{
+                type: 'button',
+                text: 'Scan Tanaman',
+                weight: 'tabItem',
+                color: pallate.neutral['01'],
+              }}
               icon={{
                 name: 'IconScan',
-                size: 18,
+                size: 16,
                 color: pallate.neutral['01'],
                 stroke: 2.5,
               }}
@@ -133,23 +143,28 @@ const Welcome: React.FC<WelcomeProps> = React.memo(
                 type="title"
                 weight="03"
                 color={pallate.neutral['05']}
-                text="Tanamanmu"
+                text="Kebunmu"
               />
               <Text
                 type="body"
                 weight="01"
-                color={pallate.neutral['03']}
+                color={pallate.neutral['04']}
                 text="Kamu memiliki 3 Taman"
               />
             </VStack>
             <Button
               onPress={onPressAddPlant}
-              color={pallate.neutral['01']}
               backgroundColor={pallate.neutral['05']}
-              text="Tambah Taman"
+              color={pallate.neutral['01']}
+              text={{
+                type: 'button',
+                text: 'Tambah Kebun',
+                weight: 'tabItem',
+                color: pallate.neutral['01'],
+              }}
               icon={{
                 name: 'IconApps',
-                size: 18,
+                size: 16,
                 color: pallate.neutral['01'],
                 stroke: 2.5,
               }}

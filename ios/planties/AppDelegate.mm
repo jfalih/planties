@@ -1,11 +1,16 @@
 #import "AppDelegate.h"
 #import "RNBootSplash.h" // ⬅️ add the header import RNBOOTSPLASH
 #import <React/RCTBundleURLProvider.h>
+#import <Firebase.h> // RN FIREBASe
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  // Add me --- RN FIREBASE
+  [FIRApp configure];
+  // Add me ---
+
   self.moduleName = @"planties";
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.

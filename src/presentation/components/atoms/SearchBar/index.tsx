@@ -8,13 +8,15 @@ import {
   verticalScale,
 } from '../../../../core/utils/scale';
 import Icon, {IconProps} from '../Icon';
-import {FlexAnimated} from '../Layout/Flex';
-import {FadeIn, FadeInDown, FadeInUp} from 'react-native-reanimated';
+import {FlexAnimated, FlexProps} from '../Layout/Flex';
+import {FadeInDown} from 'react-native-reanimated';
 
-interface SearchBarProps extends TextInputProps {
+type MultipleProps = TextInputProps & FlexProps;
+interface SearchBarProps extends MultipleProps {
   icon?: IconProps;
   leading?: JSX.Element;
   trailing?: JSX.Element;
+  containerProps?: FlexProps;
 }
 
 const SearchBar = React.memo(
@@ -27,6 +29,8 @@ const SearchBar = React.memo(
       value,
       onChangeText,
       icon,
+      containerProps,
+      height = 42,
       ...rest
     } = props;
 
@@ -58,16 +62,16 @@ const SearchBar = React.memo(
     return (
       <FlexAnimated
         entering={FadeInDown.duration(1500).delay(300)}
-        position={{set: 'relative'}}>
-        <Flex
+        position={{set: 'relative'}}
+        {...containerProps}>
+        <FlexAnimated
           fill
           borderRadius={moderateScale(15)}
           padding={{
-            paddingLeft:
-              (leading || icon) && horizontalScale(spacing.large * 2),
-            paddingRight: trailing && horizontalScale(spacing.large * 2),
+            paddingLeft: (leading || icon) && spacing.large * 2,
+            paddingRight: trailing && spacing.large * 2,
           }}
-          height={42}
+          height={height}
           as={
             <TextInput
               style={{
@@ -79,7 +83,7 @@ const SearchBar = React.memo(
               numberOfLines={1}
               returnKeyLabel="search"
               returnKeyType="search"
-              placeholderTextColor={pallate.neutral['03']}
+              placeholderTextColor={pallate.neutral['04']}
               placeholder={placeholder}
             />
           }
@@ -91,7 +95,7 @@ const SearchBar = React.memo(
             backgroundColor={'transparent'}
             position={{
               left: horizontalScale(spacing.standard),
-              top: icon && moderateScale(42) / 2 - moderateScale(icon.size / 2),
+              top: icon && height / 2 - (icon.size || 14) / 2,
             }}>
             {icon ? (
               <Icon name={icon.name} size={icon.size} color={icon.color} />
@@ -104,8 +108,8 @@ const SearchBar = React.memo(
           <Box
             as={trailing}
             position={{
-              right: horizontalScale(spacing.standard),
-              top: verticalScale(42 / 2 - 18 / 2),
+              right: spacing.standard,
+              top: height / 2 - (icon?.size || 14) / 2,
             }}
           />
         )}

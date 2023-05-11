@@ -6,25 +6,20 @@ import Text from '../../../atoms/Text';
 import {useTheme} from '../../../../../services/context/Theme/Theme.context';
 import Status from '../../../atoms/Status';
 import Pressable, {PressableProps} from '../../../atoms/Pressable';
+import {Source} from 'react-native-fast-image';
 
-interface PlantProps extends PressableProps {
+export interface PlantProps extends PressableProps {
   name: string;
+  source: Source;
   status?: 'danger' | 'ok' | 'good';
 }
 const Plant = (props: PlantProps) => {
-  const {name, status, ...rest} = props;
+  const {name, status, source, ...rest} = props;
   const {spacing} = useTheme();
   return (
     <Pressable {...rest}>
       <VStack spacing={spacing.small}>
-        <Image
-          borderRadius={12}
-          width={111}
-          height={154}
-          source={{
-            uri: 'https://images.unsplash.com/photo-1512428813834-c702c7702b78?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
-          }}
-        />
+        <Image borderRadius={12} width={111} height={154} source={source} />
         <Text type="caption" weight="01" text={name} />
         {status && (
           <Box
