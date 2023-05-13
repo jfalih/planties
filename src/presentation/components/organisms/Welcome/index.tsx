@@ -67,9 +67,15 @@ const ListEmptyComponent = ({onPressAddPlant}) => {
 
 const Welcome: React.FC<WelcomeProps> = React.memo(
   React.forwardRef((props, _) => {
-    const {title, description, gardens, onPressScan, onPressAddPlant} = props;
+    const {
+      title,
+      description,
+      gardens,
+      onPressScan,
+      onPressGarden,
+      onPressAddPlant,
+    } = props;
     const {pallate, spacing} = useTheme();
-
     const dividerSeparator = () => (
       <Divider horizontal thickness={spacing.standard} />
     );
@@ -103,7 +109,7 @@ const Welcome: React.FC<WelcomeProps> = React.memo(
               text={description}
             />
             <Button
-              onPress={onPressAddPlant}
+              onPress={onPressScan}
               backgroundColor={pallate.primary['04']}
               color={pallate.neutral['01']}
               text={{
@@ -149,7 +155,7 @@ const Welcome: React.FC<WelcomeProps> = React.memo(
                 type="body"
                 weight="01"
                 color={pallate.neutral['04']}
-                text="Kamu memiliki 3 Taman"
+                text={`Kamu memiliki ${gardens.length} Kebun`}
               />
             </VStack>
             <Button
@@ -170,9 +176,10 @@ const Welcome: React.FC<WelcomeProps> = React.memo(
               }}
             />
           </HStack>
-          <Box height={180}>
+          <Flex height={180}>
             <FlashList
               data={gardens}
+              extraData={gardens}
               horizontal
               ListEmptyComponent={
                 <ListEmptyComponent onPressAddPlant={onPressAddPlant} />
@@ -180,10 +187,15 @@ const Welcome: React.FC<WelcomeProps> = React.memo(
               ItemSeparatorComponent={dividerSeparator}
               estimatedItemSize={180}
               renderItem={({item}) => (
-                <Card type="garden" plants={item.data} name={item.title} />
+                <Card
+                  type="garden"
+                  plants={item.photos}
+                  name={item.name}
+                  onPress={() => onPressGarden(item.key)}
+                />
               )}
             />
-          </Box>
+          </Flex>
         </VStack>
       </VStack>
     );

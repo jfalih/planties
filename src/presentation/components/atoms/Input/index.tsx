@@ -36,6 +36,7 @@ const Input = React.memo(
       value,
       error,
       icon,
+      backgroundColor,
       ...rest
     } = props;
 
@@ -44,7 +45,7 @@ const Input = React.memo(
         backgroundColor: interpolateColor(
           error ? 1 : 0,
           [0, 1],
-          [pallate.neutral['02'], pallate.danger['01']],
+          [backgroundColor || pallate.neutral['02'], pallate.danger['01']],
         ),
       };
     }, [error]);

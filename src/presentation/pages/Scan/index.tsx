@@ -104,7 +104,7 @@ const Scan = ({navigation}) => {
             align="center"
             type="title"
             weight="03">
-            Apa yang ingin kamu lakukan?
+            Mendiagnosis tanamanmu..
           </Text>
         </VStack>
       ) : (

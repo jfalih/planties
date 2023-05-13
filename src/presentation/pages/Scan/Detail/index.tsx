@@ -1,28 +1,130 @@
-import React, { useCallback } from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import Container from '../../../components/organisms/Container';
 import Text from '../../../components/atoms/Text';
-import {HStack, VStack} from '../../../components/atoms/Layout/Stack';
+import {
+  HStack,
+  HStackAnimated,
+  VStack,
+} from '../../../components/atoms/Layout/Stack';
 import {useTheme} from '../../../../services/context/Theme/Theme.context';
 import useDiagnose from '../../../../core/apis/Plants/useDiagnose';
 import Image from '../../../components/atoms/Image';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, useWindowDimensions} from 'react-native';
 import Icon from '../../../components/atoms/Icon';
 import useAttention from '../../../../core/apis/Plants/useAttention';
 import Accordion from 'react-native-collapsible/Accordion';
+import Flex, {FlexAnimated} from '../../../components/atoms/Layout/Flex';
+import {Easing, useAnimatedStyle, withTiming} from 'react-native-reanimated';
 
 const Detail = ({route, navigation}) => {
   const {spacing, pallate} = useTheme();
   const {diagnoseId} = route.params;
   const {data: diagnose} = useDiagnose(diagnoseId);
   const {data: attention} = useAttention(diagnose?.status);
+  const [active, setActive] = useState([]);
 
-  const _renderContent = useCallback((section) => (
+  const _renderContent = useCallback(
+    (section, isActive) => {
+      return (
+        <VStack
+          padding={{
+            paddingTop: spacing.standard,
+            paddingHorizontal: spacing.medium,
+            paddingBottom: spacing.large,
+          }}
+          borderRadius={20}
+          spacing={spacing.standard}
+          backgroundColor={pallate.neutral['01']}>
+          <HStack spacing={spacing.large}>
+            <Text fill color={pallate.neutral['04']} numberOfLines={10}>
+              {section.description}
+            </Text>
+            <Image
+              source={{
+                uri: section.exampleImgUrl,
+              }}
+              width={100}
+              height={200}
+              borderRadius={20}
+            />
+          </HStack>
+          <HStack spacing={spacing.small}>
+            <Image
+              borderRadius={20}
+              fill
+              source={{
+                uri: section?.thumbnailUrl,
+              }}
+            />
+            <Image
+              source={{
+                uri: section.exampleImgUrl,
+              }}
+              width={140}
+              height={100}
+              borderRadius={20}
+            />
+          </HStack>
+        </VStack>
+      );
+    },
+    [
+      pallate.neutral,
+      spacing.large,
+      spacing.medium,
+      spacing.small,
+      spacing.standard,
+    ],
+  );
 
-  ), []);
+  const _renderHeader = useCallback(
+    section => {
+      return (
+        <HStackAnimated
+          items="center"
+          spacing={spacing.standard}
+          padding={{
+            paddingVertical: spacing.standard,
+            paddingHorizontal: spacing.large,
+          }}
+          borderRadius={20}
+          backgroundColor={pallate.neutral['01']}>
+          <Icon size={24} color={pallate.neutral['05']} name="IconPlus" />
+          <Text>{section.title}</Text>
+        </HStackAnimated>
+      );
+    },
+    [pallate.neutral, spacing.large, spacing.standard],
+  );
 
-  const _renderHeader = useCallback((section) => (
+  const dataIcon = useMemo(() => {
+    const status = diagnose?.status?.trim().toLowerCase();
+    if (status === 'healthy') {
+      return {
+        color: pallate.primary['03'],
+        icon: 'IconMoodSmileBeam',
+      };
+    } else if (status === 'scab') {
+      return {
+        color: pallate.warning['03'],
+        icon: 'IconMoodSmile',
+      };
+    } else if (status === 'rust') {
+      return {
+        color: pallate.warning['03'],
+        icon: 'IconMoodSmile',
+      };
+    } else {
+      return {
+        color: pallate.danger['03'],
+        icon: 'IconMoodSad',
+      };
+    }
+  }, [diagnose?.status, pallate]);
+  const _updateSections = activeSections => {
+    setActive(activeSections);
+  };
 
-  ), []);
   return (
     <Container
       scrollable
@@ -51,10 +153,10 @@ const Detail = ({route, navigation}) => {
           spacing={spacing.standard}
           backgroundColor={pallate.neutral['01']}
           borderRadius={39}>
-          <Icon size={42} color={'#000'} name="IconMoodSmileBeam" />
+          <Icon size={42} color={dataIcon?.color} name={dataIcon?.icon} />
           <VStack items="center" spacing={spacing.tiny}>
             <Text type="title" weight="06">
-              {diagnose?.status}
+              {diagnose?.status || 'Loading..'}
             </Text>
             <Text type="body" weight="01">
               AI {diagnose?.prediction || '0%'} Confident
@@ -139,14 +241,21 @@ const Detail = ({route, navigation}) => {
               <Text type="title" weight="06">
                 Temp
               </Text>
-              <Text>0-30 C</Text>
+              <Text>0-30°C</Text>
             </VStack>
           </VStack>
         </HStack>
         <Text type="title" weight="03">
           Need Attention
         </Text>
-        <Accordion sections={attention} renderHeader={_renderHeader} renderContent={_renderContent}/>
+        <Accordion
+          underlayColor="#f2f2f2"
+          sections={attention}
+          activeSections={active}
+          onChange={_updateSections}
+          renderContent={_renderContent}
+          renderHeader={_renderHeader}
+        />
       </VStack>
     </Container>
   );

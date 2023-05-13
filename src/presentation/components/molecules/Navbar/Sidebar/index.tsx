@@ -1,24 +1,25 @@
 import React, {useCallback} from 'react';
 import Icon from '../../../atoms/Icon';
-import {HStack, HStackAnimated, VStack, VStackProps} from '../../../atoms/Layout/Stack';
+import {
+  HStack,
+  HStackAnimated,
+  VStack,
+  VStackProps,
+} from '../../../atoms/Layout/Stack';
 import Pressable from '../../../atoms/Pressable';
 import {useTheme} from '../../../../../services/context/Theme/Theme.context';
 import {useNavigation} from '@react-navigation/native';
-import Button from '../../../atoms/Button';
-import Divider from '../../../atoms/Layout/Divider';
-import {FlashList} from '@shopify/flash-list';
 import {Flex} from '../../../atoms/Layout';
-import SearchBar from '../../../atoms/SearchBar';
 import Text from '../../../atoms/Text';
-import { interpolateColor, useAnimatedStyle } from 'react-native-reanimated';
-import { useScroll } from '../../../../../services/context/Scroll/Scroll.context';
+import {interpolateColor, useAnimatedStyle} from 'react-native-reanimated';
+import {useScroll} from '../../../../../services/context/Scroll/Scroll.context';
 
 export interface BackProps extends VStackProps {
   title?: string;
   trailing?: React.ReactNode;
 }
 
-const Back: React.FC<BackProps> = props => {
+const Sidebar: React.FC<BackProps> = props => {
   const {title, trailing, style, ...rest} = props;
   const navigation = useNavigation();
   const {spacing, pallate} = useTheme();
@@ -41,26 +42,22 @@ const Back: React.FC<BackProps> = props => {
         paddingHorizontal: spacing.large,
         paddingVertical: spacing.standard,
       }}
-      spacing={spacing.small}
-      justify="space-between"
+      spacing={spacing.large}
       {...rest}>
-      <Pressable
-        self="center"
-        onPress={() => navigation.goBack()}
-        width={50}
-        height={32}>
-        <Icon
-          size={32}
-          color={pallate.neutral['05']}
-          name="IconArrowNarrowLeft"
-        />
+      <Pressable self="center" onPress={() => navigation.goBack()} height={24}>
+        <Icon size={24} color={pallate.neutral['05']} name="IconMenu" />
       </Pressable>
-      <Text type="title" weight="05">
+      <Text fill type="title" weight="02">
         {title}
       </Text>
-      {trailing || <Flex width={50} />}
+      <Pressable self="center" onPress={() => navigation.goBack()} height={24}>
+        <Icon size={24} color={pallate.neutral['05']} name="IconBell" />
+      </Pressable>
+      <Pressable self="center" onPress={() => navigation.goBack()} height={24}>
+        <Icon size={24} color={pallate.neutral['05']} name="IconSearch" />
+      </Pressable>
     </HStackAnimated>
   );
 };
 
-export default Back;
+export default Sidebar;

@@ -1,16 +1,13 @@
 import firestore from '@react-native-firebase/firestore';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
-const useAttention = (status?: string) => {
-  const [data, setData] = useState<any[]>([]);
+const useExperts = () => {
+  const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let query = firestore().collection('attention');
 
-    if (status) {
-      query = query.where('type', '==', status.trim());
-    }
+    let query = firestore().collection('expert');
 
     const subscriber = query.onSnapshot(querySnapshot => {
       const data: any[] = [];
@@ -26,7 +23,7 @@ const useAttention = (status?: string) => {
     });
     // Unsubscribe from events when no longer in use
     return () => subscriber();
-  }, [status]);
+  }, []);
 
   return {
     loading,
@@ -34,4 +31,4 @@ const useAttention = (status?: string) => {
   };
 };
 
-export default useAttention;
+export default useExperts;

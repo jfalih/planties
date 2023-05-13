@@ -18,10 +18,12 @@ import useVideos from '../../../../core/apis/Plants/useVideos';
 
 const Detail = ({route, navigation}) => {
   const {spacing, pallate} = useTheme();
-  const {id} = route.params;
-  const {data} = usePlant(id);
+  const {id, type} = route.params;
+  const {data} = usePlant(id, type);
   const {data: medium} = useMedium();
   const {data: videos} = useVideos(id);
+
+  console.log(id);
   console.log(videos);
   return (
     <Container
@@ -39,16 +41,13 @@ const Detail = ({route, navigation}) => {
         isDetail
         data={[
           {
-            bg: 'red',
-            image: 'https://i.ibb.co/TwW84nZ/carousel-1-2x.webp',
+            image: type === 'plants' ? data?.images[0] : data?.photos[0],
           },
           {
-            bg: 'blue',
-            image: 'https://i.ibb.co/wwBv0WQ/carousel-2-2x.webp',
+            image: type === 'plants' ? data?.images[1] : data?.photos[1],
           },
           {
-            bg: 'green',
-            image: 'https://i.ibb.co/0Dw15jg/carousel-2-2x.webp',
+            image: type === 'plants' ? data?.images[2] : data?.photos[2],
           },
         ]}
       />
@@ -131,123 +130,125 @@ const Detail = ({route, navigation}) => {
             </Flex>
           </HStack>
         )}
-        <HStack justify="space-between">
-          <VStack
-            spacing={spacing.tiny}
-            width={84}
-            height={84}
-            borderRadius={20}
-            backgroundColor={pallate.neutral['01']}
-            items="center"
-            justify="center">
-            <Icon name="IconDroplet" size={24} color={pallate.info['03']} />
-            <VStack items="center" justify="center">
-              <Text type="title" weight="06">
-                Watering
-              </Text>
-              <Text>
-                {data?.maxWateringFrequency} {data?.wateringFrequencyUnit}
-              </Text>
+        {type === 'plants' && (
+          <HStack justify="space-between">
+            <VStack
+              spacing={spacing.tiny}
+              width={84}
+              height={84}
+              borderRadius={20}
+              backgroundColor={pallate.neutral['01']}
+              items="center"
+              justify="center">
+              <Icon name="IconDroplet" size={24} color={pallate.info['03']} />
+              <VStack items="center" justify="center">
+                <Text type="title" weight="06">
+                  Watering
+                </Text>
+                <Text>
+                  {data?.maxWateringFrequency} {data?.wateringFrequencyUnit}
+                </Text>
+              </VStack>
             </VStack>
-          </VStack>
-          <VStack
-            spacing={spacing.small}
-            width={84}
-            borderRadius={20}
-            height={84}
-            backgroundColor={pallate.neutral['01']}
-            items="center"
-            justify="center">
-            <Icon
-              name="IconTrendingUp"
-              size={24}
-              color={pallate.primary['03']}
-            />
-            <VStack items="center" justify="center">
-              <Text type="title" weight="06">
-                Scale
-              </Text>
-              <Text type="body" weight="02">
-                {data?.growth}
-              </Text>
-            </VStack>
-          </VStack>
-          <VStack
-            spacing={spacing.small}
-            width={84}
-            borderRadius={20}
-            height={84}
-            backgroundColor={pallate.neutral['01']}
-            items="center"
-            justify="center">
-            <Icon
-              name="IconArrowsVertical"
-              size={24}
-              color={pallate.warning['03']}
-            />
-            <VStack items="center" justify="center">
-              <Text type="title" weight="06">
-                Height
-              </Text>
-              <Text type="body" weight="02">
-                Up to {data?.height}
-                {data?.heightUnit}
-              </Text>
-            </VStack>
-          </VStack>
-          <VStack
-            spacing={spacing.small}
-            width={84}
-            height={84}
-            borderRadius={20}
-            backgroundColor={pallate.neutral['01']}
-            items="center"
-            justify="center">
-            <Icon
-              name="IconTemperature"
-              size={24}
-              color={pallate.danger['03']}
-            />
-            <VStack items="center" justify="center">
-              <Text type="title" weight="06">
-                Temp
-              </Text>
-              <Text>
-                {data?.minTemp}-{data?.maxTemp} C
-              </Text>
-            </VStack>
-          </VStack>
-        </HStack>
-      </VStack>
-      <Section
-        title="Cara Merawat"
-        description="Lorem ipsum dolor sit amet consectetur. Lobortis egestas dolor venenatis arcu tristique est odio feugiat.">
-        <Flex height={340}>
-          <FlashList
-            data={videos}
-            horizontal
-            contentContainerStyle={{
-              paddingHorizontal: spacing.large,
-            }}
-            ItemSeparatorComponent={() => <Divider horizontal thickness={20} />}
-            estimatedItemSize={180}
-            renderItem={({item}) => (
-              <Card
-                key={item.key}
-                type="commerce"
-                title={item.name}
-                onPress={() => navigation.navigate('ProductDetail')}
-                onPressAddToCart={() => addToCart(item.key, user.uid)}
-                onPressAddToWishlist={() => {}}
-                source={{
-                  uri: item.imageUrl,
-                }}
-                price={item.price}
+            <VStack
+              spacing={spacing.small}
+              width={84}
+              borderRadius={20}
+              height={84}
+              backgroundColor={pallate.neutral['01']}
+              items="center"
+              justify="center">
+              <Icon
+                name="IconTrendingUp"
+                size={24}
+                color={pallate.primary['03']}
               />
-            )}
-          />
-        </Flex>
-      </Section>
+              <VStack items="center" justify="center">
+                <Text type="title" weight="06">
+                  Scale
+                </Text>
+                <Text type="body" weight="02">
+                  {data?.growth}
+                </Text>
+              </VStack>
+            </VStack>
+            <VStack
+              spacing={spacing.small}
+              width={84}
+              borderRadius={20}
+              height={84}
+              backgroundColor={pallate.neutral['01']}
+              items="center"
+              justify="center">
+              <Icon
+                name="IconArrowsVertical"
+                size={24}
+                color={pallate.warning['03']}
+              />
+              <VStack items="center" justify="center">
+                <Text type="title" weight="06">
+                  Height
+                </Text>
+                <Text type="body" weight="02">
+                  Up to {data?.height}
+                  {data?.heightUnit}
+                </Text>
+              </VStack>
+            </VStack>
+            <VStack
+              spacing={spacing.small}
+              width={84}
+              height={84}
+              borderRadius={20}
+              backgroundColor={pallate.neutral['01']}
+              items="center"
+              justify="center">
+              <Icon
+                name="IconTemperature"
+                size={24}
+                color={pallate.danger['03']}
+              />
+              <VStack items="center" justify="center">
+                <Text type="title" weight="06">
+                  Temp
+                </Text>
+                <Text>
+                  {data?.minTemp}-{data?.maxTemp} C
+                </Text>
+              </VStack>
+            </VStack>
+          </HStack>
+        )}
+      </VStack>
+      {type !== 'medium' && (
+        <Section
+          title="Cara Merawat"
+          description="Lorem ipsum dolor sit amet consectetur. Lobortis egestas dolor venenatis arcu tristique est odio feugiat.">
+          <Flex height={200}>
+            <FlashList
+              data={videos}
+              horizontal
+              contentContainerStyle={{
+                paddingHorizontal: spacing.large,
+              }}
+              ItemSeparatorComponent={() => (
+                <Divider horizontal thickness={20} />
+              )}
+              estimatedItemSize={180}
+              renderItem={({item}) => (
+                <Card
+                  source={{
+                    uri: item.imageCover,
+                  }}
+                  key={item.key}
+                  type="video"
+                  title={item.title}
+                />
+              )}
+            />
+          </Flex>
+        </Section>
+      )}
       <Section
         title="Media tanam yang cocok"
         description="Media tanam yang direkomendasikan untuk Philodendron.">
@@ -265,11 +266,16 @@ const Detail = ({route, navigation}) => {
                 key={item.key}
                 type="commerce"
                 title={item.name}
-                onPress={() => navigation.navigate('ProductDetail')}
+                onPress={() =>
+                  navigation.navigate('ProductDetail', {
+                    id: item.key,
+                    type: 'medium',
+                  })
+                }
                 onPressAddToCart={() => addToCart(item.key, user.uid)}
                 onPressAddToWishlist={() => {}}
                 source={{
-                  uri: item.imageUrl,
+                  uri: item.photos[0],
                 }}
                 price={item.price}
               />

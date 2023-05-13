@@ -3,11 +3,15 @@ import Garden, {GardenProps} from './Garden';
 import Product, {ProductProps} from './Product';
 import Plant, {PlantProps} from './Plant';
 import Commerce, {CommerceProps} from './Commerce';
+import Pakar from './Pakar';
+import Video from './Video';
 
 const Components = {
   garden: Garden,
+  video: Video,
   product: Product,
   plant: Plant,
+  pakar: Pakar,
   commerce: Commerce,
 };
 

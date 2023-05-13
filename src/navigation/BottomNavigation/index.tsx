@@ -7,7 +7,8 @@ import {useTheme} from '../../services/context/Theme/Theme.context';
 import Icon from '../../presentation/components/atoms/Icon';
 import Shop from '../../presentation/pages/Shop';
 import Scan from '../../presentation/pages/Scan';
-import Container from '../../presentation/components/organisms/Container';
+import Care from '../../presentation/pages/Care';
+import Community from '../../presentation/pages/Community';
 
 const Tab = createBottomTabNavigator();
 
@@ -52,18 +53,20 @@ const BottomNavigation = () => {
           tabBarIcon: ({color, size}) => (
             <Icon name="IconBucketDroplet" color={color} size={size} />
           ),
+          unmountOnBlur: true,
         }}
         name="Plant Care"
-        component={Scan}
+        component={Care}
       />
       <Tab.Screen
         options={{
           tabBarIcon: ({color, size}) => (
             <Icon name="IconSocial" color={color} size={size} />
           ),
+          unmountOnBlur: true,
         }}
         name="Community"
-        component={Scan}
+        component={Community}
       />
     </Tab.Navigator>
   );

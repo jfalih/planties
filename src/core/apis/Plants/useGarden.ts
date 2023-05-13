@@ -1,24 +1,16 @@
-import {useQuery} from '@tanstack/react-query';
-import request from '../../http/request';
-import url from '../../http/url';
-import {useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
+import {useEffect, useState} from 'react';
+import {useAuth} from '../../../services/context/Auth/Auth.context';
 
-const plantsKey = {
-  userPlant: url('https://planties.com', 'user/plants'),
-};
-
-const useRecommendationPlants = (category?: string) => {
+const useGardens = () => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const {user} = useAuth();
 
   useEffect(() => {
-    let query = firestore().collection('plants');
-
-    if (category) {
-      const categoryDocRef = firestore().collection('categories').doc(category);
-      query = query.where('category_id', '==', categoryDocRef);
-    }
+    let query = firestore()
+      .collection('gerdens')
+      .where('userId', '==', user?.uid);
 
     const subscriber = query.onSnapshot(querySnapshot => {
       const data: any[] = [];
@@ -34,7 +26,7 @@ const useRecommendationPlants = (category?: string) => {
     });
     // Unsubscribe from events when no longer in use
     return () => subscriber();
-  }, [category]);
+  }, [user?.uid]);
 
   return {
     loading,
@@ -42,13 +34,13 @@ const useRecommendationPlants = (category?: string) => {
   };
 };
 
-const usePlant = (plant: string, type: string) => {
+const useGardenDetail = (garden: string) => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (plant && type) {
-      let query = firestore().collection(type).doc(plant);
+    if (garden) {
+      let query = firestore().collection('gerdens').doc(garden);
       const subscriber = query.onSnapshot(querySnapshot => {
         setData({
           ...querySnapshot.data(),
@@ -59,7 +51,7 @@ const usePlant = (plant: string, type: string) => {
       // Unsubscribe from events when no longer in use
       return () => subscriber();
     }
-  }, [plant, type]);
+  }, [garden]);
 
   return {
     loading,
@@ -67,11 +59,5 @@ const usePlant = (plant: string, type: string) => {
   };
 };
 
-const useUserPlants = () => {
-  const result = useQuery([plantsKey.userPlant], () =>
-    request(plantsKey.userPlant),
-  );
-  return result;
-};
-
-export {useUserPlants, usePlant, useRecommendationPlants};
+export {useGardenDetail};
+export default useGardens;

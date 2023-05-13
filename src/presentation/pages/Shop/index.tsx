@@ -45,7 +45,6 @@ const Shop = ({navigation}) => {
   const {data: medium} = useMedium();
   const {data: categories} = useCategories();
 
-  console.log(data);
   const ListHeaderComponentPlants = useCallback(() => {
     const isActive = !category.category_id;
     return (
@@ -240,7 +239,7 @@ const Shop = ({navigation}) => {
             text={{
               type: 'body',
               weight: '02',
-              text: 'Selected',
+              text: 'Paling Laris',
             }}
             borderRadius={spacing.tiny}
             backgroundColor={pallate.neutral['01']}
@@ -255,7 +254,8 @@ const Shop = ({navigation}) => {
           <Divider horizontal color={pallate.neutral['04']} thickness={1} />
           <Flex fill>
             <FlashList
-              data={[1, 2, 3, 4]}
+              data={categories}
+              extraData={category}
               horizontal
               contentContainerStyle={{
                 paddingRight: spacing.extraLarge,
@@ -265,21 +265,27 @@ const Shop = ({navigation}) => {
                 <Divider horizontal thickness={spacing.small} />
               )}
               estimatedItemSize={111}
+              ListHeaderComponent={ListHeaderComponentPlants}
               renderItem={({item}) => (
                 <Button
+                  key={item.key}
+                  onPress={() =>
+                    setCategory({...category, category_id: item.key})
+                  }
                   text={{
                     type: 'body',
                     weight: '02',
-                    text: 'Paling Laris',
+                    color:
+                      category.category_id === item.key
+                        ? pallate.neutral['01']
+                        : pallate.neutral['05'],
+                    text: item.name,
                   }}
                   borderRadius={10}
-                  backgroundColor={pallate.neutral['01']}
-                  trailing={
-                    <Icon
-                      name="IconArrowsSort"
-                      size={14}
-                      color={pallate.neutral['05']}
-                    />
+                  backgroundColor={
+                    category.category_id === item.key
+                      ? pallate.primary['03']
+                      : pallate.neutral['01']
                   }
                 />
               )}
@@ -301,6 +307,12 @@ const Shop = ({navigation}) => {
                 type="commerce"
                 title={item.name}
                 price={item.price}
+                onPress={() =>
+                  navigation.navigate('ProductDetail', {
+                    id: item.key,
+                    type: 'medium',
+                  })
+                }
                 onPressAddToCart={() => {}}
                 onPressAddToWishlist={() => {}}
                 source={{
@@ -395,12 +407,15 @@ const Shop = ({navigation}) => {
                 type="commerce"
                 title={item.name}
                 onPress={() =>
-                  navigation.navigate('ProductDetail', {id: item.key})
+                  navigation.navigate('ProductDetail', {
+                    id: item.key,
+                    type: 'plants',
+                  })
                 }
                 onPressAddToCart={() => addToCart(item.key, user.uid)}
                 onPressAddToWishlist={() => {}}
                 source={{
-                  uri: item.imageUrl,
+                  uri: item.images[0],
                 }}
                 price={item.price}
               />

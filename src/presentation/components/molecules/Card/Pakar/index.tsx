@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React from 'react';
 import {BounceIn} from 'react-native-reanimated';
 import Box, {BoxAnimated} from '../../../atoms/Layout/Box';
 import Flex, {FlexProps} from '../../../atoms/Layout/Flex';
@@ -8,18 +8,17 @@ import {useTheme} from '../../../../../services/context/Theme/Theme.context';
 import Pressable, {PressableProps} from '../../../atoms/Pressable';
 import Divider from '../../../atoms/Layout/Divider';
 import Status from '../../../atoms/Status';
-import {Plants} from '../../../../../core/models';
 import {HStack} from '../../../atoms/Layout/Stack';
-import firestore from '@react-native-firebase/firestore';
+
 export interface GardenProps extends PressableProps {
-  plants: any[];
+    pakar: any[];
   name: string;
   source: ImageProps['source'];
   cardProps: FlexProps;
 }
 
-const Garden = (props: GardenProps) => {
-  const {plants = [], name, source, cardProps, ...rest} = props;
+const Pakar = (props: GardenProps) => {
+  const {pakar = [], name, source, cardProps, ...rest} = props;
   const {pallate, spacing} = useTheme();
 
   return (
@@ -28,9 +27,9 @@ const Garden = (props: GardenProps) => {
         width={130}
         height={150}
         borderRadius={12}
-        backgroundColor={pallate.neutral['02']}
+        backgroundColor={pallate.neutral['01']}
         {...cardProps}>
-        {plants.map((item, i) => {
+        {pakar.map((item, i) => {
           let position;
           switch (i) {
             case 1:
@@ -80,12 +79,14 @@ const Garden = (props: GardenProps) => {
         })}
       </Flex>
       <Divider thickness={spacing.small} />
-      <HStack>
+      <HStack spacing={spacing.small} items="center">
         {source && (
           <Box
-            width={30}
-            height={30}
-            borderRadius={15}
+            width={20}
+            height={20}
+            borderWidth={1}
+            borderColor={pallate.neutral['01']}
+            borderRadius={10}
             as={<Image source={source} />}
             backgroundColor={pallate.neutral['02']}
           />
@@ -96,4 +97,4 @@ const Garden = (props: GardenProps) => {
   );
 };
 
-export default Garden;
+export default Pakar;

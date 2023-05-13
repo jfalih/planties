@@ -50,6 +50,7 @@ const Category = ({route, navigation}) => {
       </VStack>
     );
   }, [
+    height,
     pallate.neutral,
     pallate.primary,
     spacing.large,
@@ -76,8 +77,8 @@ const Category = ({route, navigation}) => {
         numColumns={2}
         data={data}
         ListEmptyComponent={ListEmptyComponentPlants}
-        extraData={{data, catId}}
-        estimatedItemSize={350}
+        extraData={[data, catId]}
+        estimatedItemSize={340}
         ItemSeparatorComponent={() => <Divider thickness={spacing.large} />}
         renderItem={({item, columnIndex}) => (
           <Box
@@ -86,7 +87,8 @@ const Category = ({route, navigation}) => {
               paddingRight: columnIndex === 0 ? spacing.standard : 0,
             }}>
             <Card
-              source={{uri: item.imageUrl}}
+              onPress={() => navigation.navigate('')}
+              source={{uri: item.images?.[0]}}
               type="commerce"
               title={item.name}
               price={item.price}
