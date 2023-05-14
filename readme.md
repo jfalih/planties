@@ -1,12 +1,11 @@
-# Panties
-
-Planties adalah super app untuk merawat tanaman, di dalam app ini terdapat AI untuk mengidentifikasi penyakit yang ada di daun. Planties akan mengingatkanmu untuk menyiram tanamanmu dan memperhitungkan apakah tanamanmu perlu disiram jika ada hujan. Selain itu, app ini dapat digunakan untuk chat dengan pakar, mengobrol dalam comunity, dan berberlanja tanaman serta alat tanam dan serba-serbi lainnya.
-
+# Planties
 
 **Team Berkah Ramadhan**
 1. [Galih Akbar Nugraha](https://github.com/whoisgalih) - Hipster
 2. [Jan Falih Fadhilah](https://github.com/jfalih) - Hacker 
 3. [Muhammad Abiya Makruf](https://github.com/AbiyaMakruf) - Hustler
+
+Planties adalah super app untuk merawat tanaman, di dalam app ini terdapat AI untuk mengidentifikasi penyakit yang ada di daun. Planties akan mengingatkanmu untuk menyiram tanamanmu dan memperhitungkan apakah tanamanmu perlu disiram jika terjadi hujan. Selain itu, app ini dapat digunakan untuk chat dengan pakar tanaman untuk mencari informasi mengenai tanamanmu, mengobrol dalam comunity, dan berberlanja tanaman serta alat tanam dan serba-serbi lainnya.
 
 ## Planties Tech Stack
 
@@ -38,11 +37,11 @@ npm install
 
 2. Ubah file di vendor/tabler-icons-react-native/index.js
 
-Pada saat repo ini dibuat, terdapat big dalam tabler icon yaitu nama IconsAmongus.js
+Pada saat repo ini dibuat, terdapat bug dalam tabler icon yaitu nama IconsAmongus.js
 
 3. Ubah import dari IconsAmongUs.js menjadi IconsAmongus.js
-4. Jalankn di iOS
-Dalam termunal, lalankan perintah
+4. Jalankan di iOS
+Dalam terminal, lakukan perintah
 ```:bash
 cd ios
 ```
@@ -53,7 +52,7 @@ setelah itu, jalankan:
 pod install
 ```
 
-5. Jalankan app dengan
+5. 
 Jika ingin menjalankan di android, maka jalankan perintah berikut di terminal
 ```:bash
 npx react-native run-android
