@@ -6,7 +6,7 @@ Planties adalah super app untuk merawat tanaman, di dalam app ini terdapat AI un
 
 Repository ini merupakan repository untuk front-end mobile yang dibuat menggunakan react native yang memiliki kemampuan cross platform iOS dan android. Berikut adalah link back-end:
 
-(Plant disease detection. planties/planties-ai-dd)[https://github.com/planties/planties-ai-dd]
+Plant disease detection: [planties/planties-ai-dd](https://github.com/planties/planties-ai-dd)
 
 ## Build file
 
