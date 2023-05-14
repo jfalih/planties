@@ -52,8 +52,7 @@ setelah itu, jalankan:
 pod install
 ```
 
-5. 
-Jika ingin menjalankan di android, maka jalankan perintah berikut di terminal
+5. Jika ingin menjalankan di android, maka jalankan perintah berikut di terminal
 ```:bash
 npx react-native run-android
 ```
