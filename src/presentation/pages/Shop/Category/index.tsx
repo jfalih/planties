@@ -87,7 +87,12 @@ const Category = ({route, navigation}) => {
               paddingRight: columnIndex === 0 ? spacing.standard : 0,
             }}>
             <Card
-              onPress={() => navigation.navigate('')}
+              onPress={() =>
+                navigation.navigate('ProductDetail', {
+                  id: item.key,
+                  type: 'plants',
+                })
+              }
               source={{uri: item.images?.[0]}}
               type="commerce"
               title={item.name}

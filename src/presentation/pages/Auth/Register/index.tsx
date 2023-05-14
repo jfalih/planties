@@ -77,7 +77,7 @@ const Register = ({navigation}: Props) => {
           <Text type="title" color={pallate.primary['03']} weight="01">
             Buat akun kamu!
           </Text>
-          <Text type="body" color={pallate.neutral['03']} weight="01">
+          <Text type="body" color={pallate.neutral['04']} weight="01">
             Tanamanmu rindu denganmu nihh. Masuk sekarang dan rawat tanamanmu
             dengan mudah 🌼
           </Text>
