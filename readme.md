@@ -18,7 +18,7 @@ Plant disease detection: [planties/planties-ai-dd](https://github.com/planties/p
 Build file adalah file yang dapat langusng diinstall di platform tertentu.
 
 Untuk android, berikut adalah build file (.apk):
-
+https://drive.google.com/file/d/1U-bqU9s8Tsp7NpbFC_4-HyYQugqg-FAr/view?usp=share_link
 
 Untuk iOS, build file akan dibuat menyusul (.ipa):
 
