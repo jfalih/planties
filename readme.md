@@ -2,6 +2,12 @@
 
 Planties adalah super app untuk merawat tanaman, di dalam app ini terdapat AI untuk mengidentifikasi penyakit yang ada di daun. Planties akan mengingatkanmu untuk menyiram tanamanmu dan memperhitungkan apakah tanamanmu perlu disiram jika ada hujan. Selain itu, app ini dapat digunakan untuk chat dengan pakar, mengobrol dalam comunity, dan berberlanja tanaman serta alat tanam dan serba-serbi lainnya.
 
+
+**Team Berkah Ramadhan** \
+[Galih Akbar Nugraha](https://github.com/whoisgalih) - Hipster\
+[Jan Falih Fadhilah](https://github.com/jfalih) - Hacker \
+[Muhammad Abiya Makruf](https://github.com/AbiyaMakruf) - Hustler
+
 ## Planties Tech Stack
 
 Repository ini merupakan repository untuk front-end mobile yang dibuat menggunakan react native yang memiliki kemampuan cross platform iOS dan android. Berikut adalah link back-end:
