@@ -1,12 +1,10 @@
 # Panties
 
----
 
 Planties adalah super app untuk merawat tanaman, di dalam app ini terdapat AI untuk mengidentifikasi penyakit yang ada di daun. Planties akan mengingatkanmu untuk menyiram tanamanmu dan memperhitungkan apakah tanamanmu perlu disiram jika ada hujan. Selain itu, app ini dapat digunakan untuk chat dengan pakar, mengobrol dalam comunity, dan berberlanja tanaman serta alat tanam dan serba-serbi lainnya.
 
 ## Cara Install
 
----
 
 1. Install dependencies yang diperlukan dapat menggunakan `yarn` atau `npm`
 
