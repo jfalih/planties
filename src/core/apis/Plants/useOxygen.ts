@@ -34,9 +34,15 @@ const useUserOxygen = () => {
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState(true);
   const {user} = useAuth();
-  console.log(user?.displayName);
+
   useEffect(() => {
-    let query = firestore().collection('oxygen').where('name', '==', user?.displayName);
+    if (!user) {
+      return;
+    }
+
+    let query = firestore()
+      .collection('oxygen')
+      .where('name', '==', user.displayName);
     const subscriber = query.onSnapshot(querySnapshot => {
       querySnapshot.forEach(documentSnapshot => {
         setData({
@@ -48,7 +54,7 @@ const useUserOxygen = () => {
     });
     // Unsubscribe from events when no longer in use
     return () => subscriber();
-  }, [user?.displayName]);
+  }, [user]);
 
   return {
     loading,

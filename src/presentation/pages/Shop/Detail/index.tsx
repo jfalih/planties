@@ -15,6 +15,7 @@ import Divider from '../../../components/atoms/Layout/Divider';
 import currency from '../../../../core/utils/currency';
 import {useMedium} from '../../../../core/apis/Plants/useMedium';
 import useVideos from '../../../../core/apis/Plants/useVideos';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const Detail = ({route, navigation}) => {
   const {spacing, pallate} = useTheme();
@@ -22,18 +23,16 @@ const Detail = ({route, navigation}) => {
   const {data} = usePlant(id, type);
   const {data: medium} = useMedium();
   const {data: videos} = useVideos(id);
-
-  console.log(id);
-  console.log(videos);
+  const {top} = useSafeAreaInsets();
   return (
     <Container
       scrollable
       navbar={{
         type: 'back',
-        title: 'Hallo',
+        title: data?.name,
         zIndex: 10,
         position: {
-          top: 0,
+          top,
         },
         width: '100%',
       }}>
@@ -41,13 +40,13 @@ const Detail = ({route, navigation}) => {
         isDetail
         data={[
           {
-            image: type === 'plants' ? data?.images[0] : data?.photos[0],
+            image: type === 'plants' ? data?.images[0] : data?.photos?.[0],
           },
           {
-            image: type === 'plants' ? data?.images[1] : data?.photos[1],
+            image: type === 'plants' ? data?.images[1] : data?.photos?.[1],
           },
           {
-            image: type === 'plants' ? data?.images[2] : data?.photos[2],
+            image: type === 'plants' ? data?.images[2] : data?.photos?.[2],
           },
         ]}
       />
@@ -92,11 +91,7 @@ const Detail = ({route, navigation}) => {
             backgroundColor={pallate.neutral['01']}
             spacing={spacing.small}
             items="center">
-            <Icon
-              name="IconStarFilled"
-              size={12}
-              color={pallate.warning['03']}
-            />
+            <Icon name="IconStar" size={12} color={pallate.warning['03']} />
             <Text color={pallate.neutral['05']} type="body" weight="02">
               4.8
             </Text>

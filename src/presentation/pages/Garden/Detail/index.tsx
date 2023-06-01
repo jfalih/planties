@@ -5,7 +5,6 @@ import {HStack, VStack} from '../../../components/atoms/Layout/Stack';
 import Text from '../../../components/atoms/Text';
 import Icon from '../../../components/atoms/Icon';
 import {useTheme} from '../../../../services/context/Theme/Theme.context';
-import {SvgTemp} from '../../../../assets';
 import Section from '../../../components/organisms/Section';
 import Button from '../../../components/atoms/Button';
 import {Flex} from '../../../components/atoms/Layout';
@@ -17,6 +16,7 @@ import {useMedium} from '../../../../core/apis/Plants/useMedium';
 import {useCategories} from '../../../../core/apis/Categories/useCategories';
 import {useRecommendationPlants} from '../../../../core/apis/Plants/usePlants';
 import Image from '../../../components/atoms/Image';
+import {SvgTemp} from '../../../../assets';
 
 const Detail = ({route}) => {
   const {id} = route.params;
@@ -34,7 +34,7 @@ const Detail = ({route}) => {
   const {data} = useRecommendationPlants(category.category_id);
   const {data: medium} = useMedium();
   const {data: categories} = useCategories();
-  console.log(garden);
+
   const ListHeaderComponentPlants = useCallback(() => {
     const isActive = !category.category_id;
     return (
@@ -114,7 +114,7 @@ const Detail = ({route}) => {
             <Text type="title" weight="05">
               Indoor Sensor
             </Text>
-            <HStack items="center">
+            <HStack spacing={spacing.standard} items="center">
               <HStack>
                 <Text
                   style={{
@@ -128,11 +128,13 @@ const Detail = ({route}) => {
                   °C
                 </Text>
               </HStack>
-              <Divider horizontal thickness={spacing.large} />
+              <Divider horizontal thickness={spacing.tiny} />
               <VStack>
                 <Text>H: {garden?.tempH}°C</Text>
                 <Text>H: {garden?.tempL}°C</Text>
               </VStack>
+              <Divider horizontal thickness={spacing.large} />
+              <SvgTemp />
             </HStack>
           </VStack>
         </HStack>

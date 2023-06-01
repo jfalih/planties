@@ -7,5 +7,6 @@ const url = (
 ): string => qs.stringifyUrl({url: new URL(path, host).toString(), query});
 
 export const baseUrl = 'https://planties.com';
+export const weatherUrl = 'https://api.openweathermap.org/data/2.5';
 
 export default url;

@@ -3,6 +3,7 @@ import request from '../../http/request';
 import url from '../../http/url';
 import {useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
+import {useAuth} from '../../../services/context/Auth/Auth.context';
 
 const plantsKey = {
   userPlant: url('https://planties.com', 'user/plants'),
@@ -11,8 +12,12 @@ const plantsKey = {
 const useRecommendationPlants = (category?: string) => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const {user} = useAuth();
 
   useEffect(() => {
+    if (!user) {
+      return;
+    }
     let query = firestore().collection('plants');
 
     if (category) {
@@ -34,7 +39,7 @@ const useRecommendationPlants = (category?: string) => {
     });
     // Unsubscribe from events when no longer in use
     return () => subscriber();
-  }, [category]);
+  }, [category, user]);
 
   return {
     loading,

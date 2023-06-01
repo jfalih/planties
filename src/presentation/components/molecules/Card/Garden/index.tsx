@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React from 'react';
 import {BounceIn} from 'react-native-reanimated';
 import Box, {BoxAnimated} from '../../../atoms/Layout/Box';
 import Flex, {FlexProps} from '../../../atoms/Layout/Flex';
@@ -8,9 +8,7 @@ import {useTheme} from '../../../../../services/context/Theme/Theme.context';
 import Pressable, {PressableProps} from '../../../atoms/Pressable';
 import Divider from '../../../atoms/Layout/Divider';
 import Status from '../../../atoms/Status';
-import {Plants} from '../../../../../core/models';
 import {HStack} from '../../../atoms/Layout/Stack';
-import firestore from '@react-native-firebase/firestore';
 export interface GardenProps extends PressableProps {
   plants: any[];
   name: string;
@@ -51,6 +49,11 @@ const Garden = (props: GardenProps) => {
                 left: 10,
               };
           }
+
+          if (i > 2) {
+            return null;
+          }
+
           return (
             <BoxAnimated
               entering={BounceIn.duration(1500).delay(200 * i)}

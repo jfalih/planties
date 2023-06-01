@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import Container from '../../../components/organisms/Container';
 import Text from '../../../components/atoms/Text';
 import {HStack, VStack} from '../../../components/atoms/Layout/Stack';
@@ -8,19 +8,18 @@ import Icon from '../../../components/atoms/Icon';
 import Button from '../../../components/atoms/Button';
 import {Flex} from '../../../components/atoms/Layout';
 import Card from '../../../components/molecules/Card';
-import {TextInput} from 'react-native';
 import storage from '@react-native-firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {useAuth} from '../../../../services/context/Auth/Auth.context';
 import Input from '../../../components/atoms/Input';
 import Toast from 'react-native-toast-message';
 import Image from '../../../components/atoms/Image';
+import {useWindowDimensions} from 'react-native';
 
-const AddGarden = ({navigation}) => {
+const AddGarden = ({route, navigation}) => {
   const {spacing, pallate} = useTheme();
-  const plants = undefined;
+  const {plants} = route?.params || {};
   const [images, setImages] = useState<string[]>([]);
-
+  const {width} = useWindowDimensions();
   const onPressLibrary = useCallback(async () => {
     try {
       const result = await launchImageLibrary({
@@ -50,8 +49,10 @@ const AddGarden = ({navigation}) => {
   }, [images]);
 
   const handlePressPlant = useCallback(() => {
-    navigation.navigate('AddPlant');
-  }, [navigation]);
+    navigation.navigate('AddPlant', {
+      plants,
+    });
+  }, [navigation, plants]);
 
   const handlePressSave = useCallback(() => {
     navigation.navigate('AddPlant');
@@ -78,7 +79,7 @@ const AddGarden = ({navigation}) => {
     spacing.standard,
     spacing.tiny,
   ]);
-  console.log(images);
+
   return (
     <Container
       navbar={{
@@ -123,9 +124,10 @@ const AddGarden = ({navigation}) => {
         Tanaman
       </Text>
       <Flex justify="space-between" wrap>
-        {plants?.data?.data.map(val => (
+        {plants?.map(val => (
           <Card
             type="plant"
+            width={width / 3 - spacing.large * 2 + spacing.small * 3}
             margin={{
               marginBottom: spacing.large,
             }}
@@ -139,9 +141,14 @@ const AddGarden = ({navigation}) => {
           onPress={handlePressPlant}
           backgroundColor={pallate.neutral['03']}
           borderRadius={12}
-          width={111}
+          width={width / 3 - spacing.large * 2 + spacing.small * 3}
           height={154}>
-          <VStack spacing={spacing.small} fill items="center" justify="center">
+          <VStack
+            padding={spacing.medium}
+            spacing={spacing.small}
+            fill
+            items="center"
+            justify="center">
             <Icon name="IconPlus" size={32} color={pallate.neutral['05']} />
             <Text
               align="center"
@@ -175,7 +182,7 @@ const AddGarden = ({navigation}) => {
           onPress={onPressLibrary}
           backgroundColor={pallate.neutral['03']}
           borderRadius={12}
-          width={111}
+          width={width / 3 - spacing.large * 2 + spacing.small * 3}
           height={154}>
           <VStack spacing={spacing.small} fill items="center" justify="center">
             <Icon name="IconPlus" size={32} color={pallate.neutral['05']} />

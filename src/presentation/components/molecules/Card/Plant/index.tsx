@@ -17,9 +17,9 @@ const Plant = (props: PlantProps) => {
   const {name, status, source, ...rest} = props;
   const {spacing} = useTheme();
   return (
-    <Pressable {...rest}>
-      <VStack spacing={spacing.small}>
-        <Image borderRadius={12} width={111} height={154} source={source} />
+    <Pressable width={111} {...rest}>
+      <VStack fill spacing={spacing.small}>
+        <Image borderRadius={12} width={'100%'} height={154} source={source} />
         <Text type="caption" weight="01" text={name} />
         {status && (
           <Box

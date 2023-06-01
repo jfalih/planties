@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>808902657378-0fo2bae0dc832gv8f36ta0tr6bgi548m.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.808902657378-0fo2bae0dc832gv8f36ta0tr6bgi548m</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>808902657378-j588lh9io3b32gahf6hv6gov8i7k07pa.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDy_9mW6DfBUYCRuRiufPN-zS7CSm5rU3g</string>
+	<key>GCM_SENDER_ID</key>
+	<string>808902657378</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.planties</string>
+	<key>PROJECT_ID</key>
+	<string>planties-60e81</string>
+	<key>STORAGE_BUCKET</key>
+	<string>planties-60e81.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:808902657378:ios:a5a203225e5c96f6f7d83b</string>
+	<key>DATABASE_URL</key>
+	<string>https://planties-60e81-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+</dict>
+</plist>

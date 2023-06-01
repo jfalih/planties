@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import Container from '../../../components/organisms/Container';
 import Text from '../../../components/atoms/Text';
 import {useTheme} from '../../../../services/context/Theme/Theme.context';
@@ -11,10 +11,15 @@ import {RootStackParamList} from '../../../../navigation/routes';
 import {Controller, useForm} from 'react-hook-form';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
+import Icon from '../../../components/atoms/Icon';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 const Register = ({navigation}: Props) => {
   const {spacing, pallate} = useTheme();
+  const [secure, setSecure] = useState({
+    password: true,
+    confirm_password: true,
+  });
   const {
     control,
     handleSubmit,
@@ -51,7 +56,7 @@ const Register = ({navigation}: Props) => {
       Toast.show({
         type: 'error',
         text1: 'Hmm, kami nemu error nih!',
-        text2: e?.message || 'Server sedang sibuk...',
+        text2: (e as Error)?.message || 'Server sedang sibuk...',
       });
     }
   });
@@ -66,12 +71,7 @@ const Register = ({navigation}: Props) => {
       spacing={spacing.large}
       justify="space-between"
       backgroundColor={pallate.neutral['01']}
-      padding={{
-        paddingTop: spacing.standard * 2,
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 20,
-      }}>
+      padding={spacing.large}>
       <VStack spacing={spacing.extraLarge}>
         <VStack spacing={spacing.standard}>
           <Text type="title" color={pallate.primary['03']} weight="01">
@@ -169,7 +169,22 @@ const Register = ({navigation}: Props) => {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                secureTextEntry
+                secureTextEntry={secure.password}
+                trailing={
+                  <Pressable
+                    onPress={() =>
+                      setSecure(prev => ({
+                        ...prev,
+                        password: !prev.password,
+                      }))
+                    }>
+                    <Icon
+                      name={secure ? 'IconEyeClosed' : 'IconEye'}
+                      color="#000"
+                      size={24}
+                    />
+                  </Pressable>
+                }
                 textContentType="oneTimeCode"
                 placeholder="Password"
                 error={error?.message}
@@ -204,7 +219,22 @@ const Register = ({navigation}: Props) => {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                secureTextEntry
+                secureTextEntry={secure.confirm_password}
+                trailing={
+                  <Pressable
+                    onPress={() =>
+                      setSecure(prev => ({
+                        ...prev,
+                        confirm_password: !prev.confirm_password,
+                      }))
+                    }>
+                    <Icon
+                      name={secure ? 'IconEyeClosed' : 'IconEye'}
+                      color="#000"
+                      size={24}
+                    />
+                  </Pressable>
+                }
                 textContentType="oneTimeCode"
                 placeholder="Konfirmasi Password"
                 error={error?.message}

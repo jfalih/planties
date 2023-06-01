@@ -84,10 +84,8 @@ const Input = React.memo(
             <Box
               backgroundColor={'transparent'}
               position={{
-                left: horizontalScale(spacing.standard),
-                top:
-                  icon &&
-                  moderateScale(50) / 2 - moderateScale((icon.size || 14) / 2),
+                left: spacing.standard,
+                top: icon ? 50 / 2 - (icon.size || 14) / 2 : undefined,
               }}>
               {icon ? (
                 <Icon name={icon.name} size={icon.size} color={icon.color} />
@@ -96,14 +94,15 @@ const Input = React.memo(
               )}
             </Box>
           )}
+
           {trailing && (
             <Box
-              as={trailing}
               position={{
-                right: horizontalScale(spacing.standard),
-                top: verticalScale(42 / 2 - 18 / 2),
-              }}
-            />
+                right: spacing.standard,
+                top: 42 / 2 - 18 / 2,
+              }}>
+              {trailing}
+            </Box>
           )}
         </Flex>
         {error && (

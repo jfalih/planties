@@ -1,6 +1,6 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Container from '../../components/organisms/Container';
-import Stack, {
+import {
   HStack,
   VStack,
   VStackAnimated,
@@ -27,6 +27,8 @@ import {useCategories} from '../../../core/apis/Categories/useCategories';
 import {addToCart} from '../../../core/apis/Cart/useCart';
 import {useAuth} from '../../../services/context/Auth/Auth.context';
 import {useMedium} from '../../../core/apis/Plants/useMedium';
+import firestore from '@react-native-firebase/firestore';
+import Toast from 'react-native-toast-message';
 
 const Shop = ({navigation}) => {
   const {user} = useAuth();
@@ -139,6 +141,30 @@ const Shop = ({navigation}) => {
     spacing.standard,
     width,
   ]);
+
+  const handlePressWishlist = useCallback(
+    async (id: string) => {
+      try {
+        await firestore().collection('wishlist').add({
+          plant_id: id,
+          user_id: user?.uid,
+        });
+        Toast.show({
+          type: 'success',
+          text1: 'Yey berhasil nih!',
+          text2: 'Kami berhasil menambahkan item ke wishlist',
+        });
+      } catch (e) {
+        Toast.show({
+          type: 'error',
+          text1: 'Hmm, kami nemu error nih!',
+          text2: (e as Error).message || 'Server Sedang Sibuk!',
+        });
+      }
+    },
+    [user?.uid],
+  );
+
   return (
     <Container
       scrollable
@@ -314,7 +340,7 @@ const Shop = ({navigation}) => {
                   })
                 }
                 onPressAddToCart={() => {}}
-                onPressAddToWishlist={() => {}}
+                onPressAddToWishlist={() => handlePressWishlist(item.key)}
                 source={{
                   uri: item.photos[0],
                 }}
@@ -413,7 +439,7 @@ const Shop = ({navigation}) => {
                   })
                 }
                 onPressAddToCart={() => addToCart(item.key, user.uid)}
-                onPressAddToWishlist={() => {}}
+                onPressAddToWishList={() => handlePressWishlist(item.key)}
                 source={{
                   uri: item.images[0],
                 }}

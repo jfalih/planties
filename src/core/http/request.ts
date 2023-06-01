@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AxiosRequestConfig } from 'axios';
+import {AxiosRequestConfig} from 'axios';
 
 const request = (url?: string, options?: AxiosRequestConfig) => {
   const opt: AxiosRequestConfig = {

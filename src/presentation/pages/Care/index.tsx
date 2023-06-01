@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Container from '../../components/organisms/Container';
 import {HStack, VStack} from '../../components/atoms/Layout/Stack';
 import {useTheme} from '../../../services/context/Theme/Theme.context';
@@ -13,15 +13,36 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from '../../components/atoms/Icon';
 import Card from '../../components/molecules/Card';
 import Image from '../../components/atoms/Image';
+import useWeather from '../../../core/apis/Weather/useWeather';
+import Geolocation, {
+  GeolocationResponse,
+} from '@react-native-community/geolocation';
 
 const Care = ({navigation}) => {
   const {spacing, pallate} = useTheme();
   const {data: gardens} = useGardens();
+  const [position, setPosition] = useState<GeolocationResponse>();
+  const {data: weathers} = useWeather({
+    lat: position?.coords?.latitude,
+    lon: position?.coords?.longitude,
+    exclude: 'hourly, daily',
+    units: 'metric',
+  });
+
+  const {weather, main, name, wind} = weathers?.data || {};
+
+  useEffect(() => {
+    Geolocation.getCurrentPosition(
+      res => {
+        setPosition(res);
+      },
+      err => {},
+    );
+  }, []);
 
   const dividerSeparator = () => <Divider thickness={spacing.medium} />;
   const ListSeparator = () => <Divider horizontal thickness={spacing.medium} />;
 
-  console.log(gardens);
   return (
     <Container
       edges={['top', 'bottom']}
@@ -44,14 +65,14 @@ const Care = ({navigation}) => {
         backgroundColor={pallate.neutral['01']}
         padding={spacing.large}>
         <HStack items="center" spacing={spacing.large}>
-          <VStack>
-            <HStack spacing={spacing.tiny}>
+          <VStack spacing={spacing.medium}>
+            <HStack items="center" spacing={spacing.tiny}>
               <Icon name="IconMapPin" size={24} color={pallate.neutral['05']} />
               <Text type="title" weight="05">
-                Bandung
+                {name}
               </Text>
             </HStack>
-            <HStack items="center">
+            <HStack spacing={spacing.medium} fill items="center">
               <HStack>
                 <Text
                   style={{
@@ -59,24 +80,24 @@ const Care = ({navigation}) => {
                   }}
                   type="subtitles"
                   weight="02">
-                  25
+                  {Math.round(main?.temp) || 0}
                 </Text>
                 <Text type="title" weight="02">
                   °C
                 </Text>
               </HStack>
-              <Divider horizontal thickness={spacing.large} />
               <VStack>
-                <Text>H: 26°C</Text>
-                <Text>H: 23°C</Text>
+                <Text>L: {Math.round(main?.temp_min) || 0}°C</Text>
+                <Text>H: {Math.round(main?.temp_max) || 0}°C</Text>
               </VStack>
-              <Divider horizontal thickness={spacing.large} />
               <Image
                 backgroundColor="transparent"
-                width={120}
+                width={84}
                 height={84}
                 resizeMode="contain"
-                source={require('../../../assets/background/rain.png')}
+                src={{
+                  uri: `https://openweathermap.org/img/w/${weather?.[0]?.icon}.png`,
+                }}
               />
             </HStack>
           </VStack>
@@ -85,25 +106,25 @@ const Care = ({navigation}) => {
           <VStack>
             <Text>Humidity</Text>
             <Text type="title" weight="06">
-              30%
+              {main?.humidity || 0}%
             </Text>
           </VStack>
           <VStack>
-            <Text>Precipitation</Text>
+            <Text>Feels Like</Text>
             <Text type="title" weight="06">
-              5.1 ml
+              {Math.round(main?.feels_like) || 0}°C
             </Text>
           </VStack>
           <VStack>
             <Text>Pressure</Text>
             <Text type="title" weight="06">
-              450 hPa
+              {main?.pressure || 0} hPa
             </Text>
           </VStack>
           <VStack>
             <Text>Wind</Text>
             <Text type="title" weight="06">
-              23 m/s
+              {wind?.speed || 0} m/s
             </Text>
           </VStack>
         </HStack>

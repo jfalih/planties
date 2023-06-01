@@ -13,7 +13,7 @@ export interface IconProps extends TablerIconsProps {
 }
 
 const Icon = React.memo((props: IconProps) => {
-  const {name = 'IconQuestionMark', size = 14, color, stroke} = props;
+  const {name = 'IconQuestionMark', size = 14, color, stroke, ...rest} = props;
   const IconComponents = Icons[name];
   const {pallate} = useTheme();
 
@@ -25,7 +25,14 @@ const Icon = React.memo((props: IconProps) => {
     return pallate.neutral['05'];
   }, [color, pallate.neutral]);
 
-  return <IconComponents size={size} color={iconColor} stroke={stroke || 2} />;
+  return (
+    <IconComponents
+      size={size}
+      color={iconColor}
+      stroke={stroke || 2}
+      {...rest}
+    />
+  );
 });
 
 export const IconAnimated = Animated.createAnimatedComponent(Icon);

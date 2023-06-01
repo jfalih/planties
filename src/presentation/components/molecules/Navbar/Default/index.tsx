@@ -65,6 +65,7 @@ const Default = (props: DefaultProps) => {
         .signOut()
         .then(() => {
           handleUser(null);
+          navigation.navigate('Auth', {screen: 'Login'});
         });
     } else {
       navigation.navigate('Auth', {screen: 'Login'});

@@ -62,7 +62,7 @@ const addToCart = async (plant_id: string, user_uid?: string) => {
       Toast.show({
         type: 'error',
         text1: 'Hmm, kami nemu error nih!',
-        text2: e?.message || 'Server Sedang Sibuk!',
+        text2: (e as Error).message || 'Server Sedang Sibuk!',
       });
     }
   } else {

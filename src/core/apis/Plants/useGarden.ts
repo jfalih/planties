@@ -8,9 +8,12 @@ const useGardens = () => {
   const {user} = useAuth();
 
   useEffect(() => {
+    if (!user) {
+      return;
+    }
     let query = firestore()
       .collection('gerdens')
-      .where('userId', '==', user?.uid);
+      .where('userId', '==', user.uid);
 
     const subscriber = query.onSnapshot(querySnapshot => {
       const data: any[] = [];
@@ -26,7 +29,7 @@ const useGardens = () => {
     });
     // Unsubscribe from events when no longer in use
     return () => subscriber();
-  }, [user?.uid]);
+  }, [user]);
 
   return {
     loading,

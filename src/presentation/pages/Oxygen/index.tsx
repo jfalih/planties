@@ -11,11 +11,13 @@ import Divider from '../../components/atoms/Layout/Divider';
 import LinearGradient from 'react-native-linear-gradient';
 import {Box} from '../../components/atoms/Layout';
 import {SVGClown} from '../../../assets';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const Oxygen = () => {
   const {spacing, pallate} = useTheme();
   const {data: oxygen} = useOxygen();
   const {data: userOxygen} = useUserOxygen();
+  const {top} = useSafeAreaInsets();
   const ItemSeparatorComponent = () => <Divider thickness={spacing.standard} />;
   const generateColors = useCallback((id: number) => {
     switch (id) {
@@ -36,7 +38,7 @@ const Oxygen = () => {
         title: 'Oxygen Leaderboard',
         zIndex: 10,
         position: {
-          top: 0,
+          top,
         },
         width: '100%',
       }}>
@@ -58,7 +60,7 @@ const Oxygen = () => {
         backgroundColor={pallate.neutral['01']}>
         <HStack spacing={spacing.small} items="center">
           <Text type="title" color={pallate.info['03']} weight="01">
-            #1
+            #{userOxygen?.rank || 0}
           </Text>
           <Text type="body" color={pallate.info['03']} weight="01">
             Kontribusi Oksigen
@@ -96,63 +98,72 @@ const Oxygen = () => {
         ItemSeparatorComponent={ItemSeparatorComponent}
         estimatedItemSize={100}
         renderItem={({item, index}) => (
-          <HStack
-            as={
-              index < 3 && (
-                <LinearGradient
-                  start={{x: 1, y: 0}}
-                  end={{x: 0, y: 1}}
-                  colors={generateColors(index)}
-                />
-              )
-            }
-            backgroundColor={pallate.neutral['01']}
-            borderRadius={12}
-            items="center"
-            padding={spacing.standard}
-            style={[
-              {
-                shadowColor: index < 3 ? '#7DD3FC' : pallate.neutral['02'],
-                shadowOffset: {
-                  width: 5,
-                  height: 3,
+          <VStack>
+            <HStack
+              as={
+                index < 3 && (
+                  <LinearGradient
+                    start={{x: 1, y: 0}}
+                    end={{x: 0, y: 1}}
+                    colors={generateColors(index)}
+                  />
+                )
+              }
+              backgroundColor={pallate.neutral['01']}
+              borderRadius={12}
+              items="center"
+              padding={spacing.standard}
+              style={[
+                {
+                  shadowColor: index < 3 ? '#7DD3FC' : pallate.neutral['02'],
+                  shadowOffset: {
+                    width: 5,
+                    height: 3,
+                  },
+                  shadowOpacity: 1,
+                  shadowRadius: 3.05,
+                  elevation: 4,
                 },
-                shadowOpacity: 1,
-                shadowRadius: 3.05,
-                elevation: 4,
-              },
-            ]}>
-            {index == 0 && (
+              ]}>
+              <VStack spacing={spacing.tiny} fill>
+                <Text
+                  color={
+                    index > 2 ? pallate.neutral['05'] : pallate.neutral['01']
+                  }
+                  type="title"
+                  weight="05">
+                  {item.name}
+                </Text>
+                <Text
+                  color={
+                    index > 2 ? pallate.neutral['04'] : pallate.neutral['01']
+                  }>
+                  {currency(item.oxygen, {symbol: 'mg'})}
+                </Text>
+              </VStack>
+              <Text
+                color={
+                  index > 2 ? pallate.neutral['04'] : pallate.neutral['01']
+                }
+                type="title"
+                weight="01">
+                #{index + 1}
+              </Text>
+            </HStack>
+            {index === 0 && (
               <Box
+                style={{
+                  zIndex: 50,
+                }}
+                backgroundColor={'transparent'}
                 position={{
                   top: -10,
+                  set: 'absolute',
                 }}
                 as={<SVGClown />}
               />
             )}
-            <VStack spacing={spacing.tiny} fill>
-              <Text
-                color={
-                  index > 2 ? pallate.neutral['05'] : pallate.neutral['01']
-                }
-                type="title"
-                weight="05">
-                {item.name}
-              </Text>
-              <Text
-                color={
-                  index > 2 ? pallate.neutral['04'] : pallate.neutral['01']
-                }>
-                {currency(item.oxygen, {symbol: 'mg'})}
-              </Text>
-            </VStack>
-            <Text
-              color={index > 2 ? pallate.neutral['04'] : pallate.neutral['01']}
-              type="title"
-              weight="01">
-              #{index + 1}
-            </Text>
-          </HStack>
+          </VStack>
         )}
       />
     </Container>

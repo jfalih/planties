@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useTheme} from '../../../services/context/Theme/Theme.context';
 import Welcome from '../../components/organisms/Welcome';
 import Container from '../../components/organisms/Container';
@@ -18,9 +18,10 @@ import {useRecommendationPlants} from '../../../core/apis/Plants/usePlants';
 import {useCategories} from '../../../core/apis/Categories/useCategories';
 import useExperts from '../../../core/apis/Plants/useExperts';
 import Pressable from '../../components/atoms/Pressable';
-import {SVGOxygen} from '../../../assets';
-import { useUserOxygen } from '../../../core/apis/Plants/useOxygen';
+import {useUserOxygen} from '../../../core/apis/Plants/useOxygen';
 import currency from '../../../core/utils/currency';
+import Geolocation from '@react-native-community/geolocation';
+import Toast from 'react-native-toast-message';
 
 const Home = ({navigation}) => {
   const {user} = useAuth();
@@ -38,13 +39,16 @@ const Home = ({navigation}) => {
     category_id: '',
   });
 
-  console.log(experts);
   const {data} = useRecommendationPlants(category.category_id);
   const {data: gardens} = useGardens();
 
   const handleAddPlant = useCallback(() => {
-    navigation.navigate('AddGarden');
-  }, [navigation]);
+    if (user) {
+      navigation.navigate('AddGarden');
+    } else {
+      navigation.navigate('Auth', {screen: 'Login'});
+    }
+  }, [navigation, user]);
 
   const handleScanPlant = useCallback(() => {
     navigation.navigate('Scan');
@@ -138,6 +142,26 @@ const Home = ({navigation}) => {
     spacing.standard,
     width,
   ]);
+
+  useEffect(() => {
+    Geolocation.requestAuthorization(
+      () => {
+        Toast.show({
+          type: 'success',
+          text1: 'Yey, berhasil nih!',
+          text2: 'Kamu berhasil memberikan akses lokasi!',
+        });
+      },
+      error => {
+        Toast.show({
+          type: 'error',
+          text1: 'Hmm, kami nemu error nih!',
+          text2: error?.message || 'Server sedang sibuk...',
+        });
+      },
+    );
+  }, []);
+
   return (
     <Container
       spacing={spacing.large}

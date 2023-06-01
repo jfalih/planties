@@ -10,7 +10,7 @@ import {useTheme} from '../../../../services/context/Theme/Theme.context';
 import AnimatedLottiePlant from '../../../../assets/lottie/plant.json';
 import Divider from '../../atoms/Layout/Divider';
 import {Box} from '../../atoms/Layout';
-import {Wave} from '../../../../assets';
+import {FarmerCouple, SVGNotFound, Wave} from '../../../../assets';
 import Button from '../../atoms/Button';
 import {Gardens} from '../../../../core/models';
 import Card from '../../molecules/Card';
@@ -60,7 +60,23 @@ const ListEmptyComponent = ({onPressAddPlant}) => {
           }}
         />
       </VStack>
-      <Box width={100} height={100} />
+      <Box
+        as={<SVGNotFound />}
+        borderRadius={24}
+        position={{
+          bottom: 0,
+          right: 0,
+        }}
+        backgroundColor={'transparent'}
+      />
+      <Box
+        width={220}
+        position={{
+          right: -15,
+          bottom: -10,
+        }}
+        as={<AnimatedLottieView source={FarmerCouple} autoPlay />}
+      />
     </HStack>
   );
 };

@@ -1,7 +1,7 @@
 #import "AppDelegate.h"
+#import <Firebase.h> // RN FIREBASe
 #import "RNBootSplash.h" // ⬅️ add the header import RNBOOTSPLASH
 #import <React/RCTBundleURLProvider.h>
-#import <Firebase.h> // RN FIREBASe
 
 @implementation AppDelegate
 

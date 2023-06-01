@@ -11,9 +11,10 @@ import currency from '../../../../../core/utils/currency';
 export interface CommerceProps extends PressableProps {
   title: string;
   price: number;
+  isWishlist: boolean;
   source: ImageProps['source'];
   onPressAddToCart: () => void;
-  onPressAddToWishList: () => void;
+  onPressAddToWishlist: () => void;
 }
 const Commerce = (props: CommerceProps) => {
   const {pallate, spacing} = useTheme();
@@ -21,8 +22,9 @@ const Commerce = (props: CommerceProps) => {
     source,
     title,
     price,
+    isWishlist,
     onPressAddToCart,
-    onPressAddToWishList,
+    onPressAddToWishlist,
     ...rest
   } = props;
   return (
@@ -66,12 +68,17 @@ const Commerce = (props: CommerceProps) => {
             <Pressable
               width={30}
               height={30}
-              onPress={onPressAddToWishList}
+              onPress={onPressAddToWishlist}
               items="center"
               justify="center"
               borderRadius={12}
               backgroundColor={pallate.neutral['05']}>
-              <Icon name="IconHeart" size={14} color={pallate.neutral['01']} />
+              <Icon
+                fill={isWishlist ? pallate.neutral['01'] : 'none'}
+                name={'IconHeart'}
+                size={14}
+                color={pallate.neutral['01']}
+              />
             </Pressable>
           </HStack>
         </VStack>

@@ -95,7 +95,7 @@ const Commerce: React.FC<CommerceProps> = props => {
             estimatedItemSize={111}
             renderItem={({item}) => (
               <Button
-                onPress={() => onSelectCategory(item.key)}
+                onPress={() => onSelectCategory?.(item.key)}
                 text={{
                   type: 'body',
                   weight: '02',
