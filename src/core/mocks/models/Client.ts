@@ -1,3 +1,4 @@
+import Garden from '../../../presentation/components/molecules/Card/Garden';
 import User from './User';
 
 class Client extends User {
@@ -21,3 +22,5 @@ class Client extends User {
     }
   }
 }
+
+export default Client;
