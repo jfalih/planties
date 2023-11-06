@@ -4,7 +4,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 import {Controller, useForm} from 'react-hook-form';
 import Toast from 'react-native-toast-message';
-import {StyleSheet, useWindowDimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 import {useTheme} from '../../../../services/context/Theme/Theme.context';
