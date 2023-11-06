@@ -1,4 +1,6 @@
-class Client {
+import User from './User';
+
+class Client extends User {
   constructor(name, gardens = []) {
     this.name = name;
     this.gardens = gardens;
