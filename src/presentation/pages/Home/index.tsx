@@ -13,12 +13,8 @@ import Icon from '../../components/atoms/Icon';
 import {useAuth} from '../../../services/context/Auth/Auth.context';
 import Text from '../../components/atoms/Text';
 import {ImageBackground, useWindowDimensions} from 'react-native';
-import useGardens from '../../../core/apis/Plants/useGarden';
 import {useRecommendationPlants} from '../../../core/apis/Plants/usePlants';
-import {useCategories} from '../../../core/apis/Categories/useCategories';
-import useExperts from '../../../core/apis/Plants/useExperts';
 import Pressable from '../../components/atoms/Pressable';
-import {useUserOxygen} from '../../../core/apis/Plants/useOxygen';
 import currency from '../../../core/utils/currency';
 import Geolocation from '@react-native-community/geolocation';
 import Toast from 'react-native-toast-message';
@@ -26,11 +22,10 @@ import Toast from 'react-native-toast-message';
 const Home = ({navigation}) => {
   const {user} = useAuth();
   const {pallate, spacing} = useTheme();
-  const {data: categories} = useCategories();
-  const {data: userOxygen} = useUserOxygen();
-
+  const userOxygen = undefined;
+  const categories = undefined;
+  const experts = [];
   const {width} = useWindowDimensions();
-  const {data: experts} = useExperts();
   const [category, setCategory] = useState<{
     filter: string;
     category_id: string;
@@ -38,9 +33,6 @@ const Home = ({navigation}) => {
     filter: '',
     category_id: '',
   });
-
-  const {data} = useRecommendationPlants(category.category_id);
-  const {data: gardens} = useGardens();
 
   const handleAddPlant = useCallback(() => {
     if (user) {
@@ -168,7 +160,7 @@ const Home = ({navigation}) => {
       scrollable
       navbar={{
         type: 'default',
-        title: `${user?.displayName} 👋`,
+        title: `${user?.name} 👋`,
         avatarSource: {
           uri: 'https://images.unsplash.com/photo-1682616323196-8a4df1e30151?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
         },
@@ -179,7 +171,7 @@ const Home = ({navigation}) => {
         onPressAddPlant={handleAddPlant}
         onPressScan={handleScanPlant}
         onPressGarden={handleGarden}
-        gardens={gardens}
+        gardens={[]}
       />
       <Pressable
         onPress={() => navigation.navigate('Oxygen')}
@@ -206,7 +198,7 @@ const Home = ({navigation}) => {
               Peringkat Kamu
             </Text>
             <Text type="title" color={pallate.info['03']} weight="01">
-              #{userOxygen?.rank || 0}
+              #{user?.rank || 0}
             </Text>
           </HStack>
           <VStack>
@@ -226,7 +218,7 @@ const Home = ({navigation}) => {
               weight="01">
               Kamu telah menghasilkan{' '}
               <Text type="title" weight="05">
-                {currency(userOxygen?.oxygen || 0, {symbol: 'mg'})}
+                {currency(user?.oxygen || 0, {symbol: 'mg'})}
               </Text>{' '}
               oksigen
             </Text>
@@ -301,8 +293,8 @@ const Home = ({navigation}) => {
         </HStack>
         <Flex height={200}>
           <FlashList
-            data={data}
-            extraData={data}
+            data={[]}
+            extraData={[]}
             horizontal
             contentContainerStyle={{
               paddingHorizontal: spacing.large,

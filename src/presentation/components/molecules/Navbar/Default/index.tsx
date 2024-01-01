@@ -89,10 +89,12 @@ const Default = (props: DefaultProps) => {
               source={avatarSource}
               rounded
               entering={FadeInRight.duration(1500)}
+              exiting={FadeInRight.duration(1500)}
             />
             <VStackAnimated
               fill
-              entering={FadeInDown.duration(1500).delay(200)}>
+              entering={FadeInDown.duration(1500).delay(200)}
+              exiting={FadeInDown.duration(1500).delay(200)}>
               <Text type="subtitles" weight="appBar" text="Welcome Back" />
               <Text type="title" weight="05" text={title} />
             </VStackAnimated>

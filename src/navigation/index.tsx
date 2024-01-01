@@ -9,8 +9,7 @@ import AuthNavigation from './Auth';
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
-  const {user} = useAuth();
-  console.log('root navigation');
+  const {token} = useAuth();
   return (
     <NavigationContainer
       onReady={() => {
@@ -22,7 +21,7 @@ const Navigation = () => {
           orientation: 'portrait',
           gestureDirection: 'horizontal',
         }}>
-        {(!user || !user?.emailVerified) && (
+        {!token && (
           <Stack.Screen
             key={'routes-999'}
             name={'Auth'}

@@ -53,6 +53,7 @@ const Input = React.memo(
     return (
       <VStackAnimated
         entering={FadeInDown.duration(1500).delay(300)}
+        exiting={FadeInDown.duration(1500).delay(300)}
         spacing={spacing.tiny}>
         <Flex position={{set: 'relative'}}>
           <FlexAnimated

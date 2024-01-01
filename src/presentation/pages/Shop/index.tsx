@@ -256,71 +256,9 @@ const Shop = ({navigation}) => {
         useFilter
         title="Media tanam untukmu"
         description="Media tanam yang direkomendasikan sesuai tanaman yang kamu miliki.">
-        <HStack
-          padding={{
-            paddingHorizontal: spacing.large,
-          }}
-          spacing={spacing.standard}>
-          <Button
-            text={{
-              type: 'body',
-              weight: '02',
-              text: 'Paling Laris',
-            }}
-            borderRadius={spacing.tiny}
-            backgroundColor={pallate.neutral['01']}
-            trailing={
-              <Icon
-                name="IconArrowsSort"
-                size={14}
-                color={pallate.neutral['05']}
-              />
-            }
-          />
-          <Divider horizontal color={pallate.neutral['04']} thickness={1} />
-          <Flex fill>
-            <FlashList
-              data={categories}
-              extraData={category}
-              horizontal
-              contentContainerStyle={{
-                paddingRight: spacing.extraLarge,
-              }}
-              showsHorizontalScrollIndicator={false}
-              ItemSeparatorComponent={() => (
-                <Divider horizontal thickness={spacing.small} />
-              )}
-              estimatedItemSize={111}
-              ListHeaderComponent={ListHeaderComponentPlants}
-              renderItem={({item}) => (
-                <Button
-                  key={item.key}
-                  onPress={() =>
-                    setCategory({...category, category_id: item.key})
-                  }
-                  text={{
-                    type: 'body',
-                    weight: '02',
-                    color:
-                      category.category_id === item.key
-                        ? pallate.neutral['01']
-                        : pallate.neutral['05'],
-                    text: item.name,
-                  }}
-                  borderRadius={10}
-                  backgroundColor={
-                    category.category_id === item.key
-                      ? pallate.primary['03']
-                      : pallate.neutral['01']
-                  }
-                />
-              )}
-            />
-          </Flex>
-        </HStack>
         <Flex height={340}>
           <FlashList
-            data={medium}
+            data={[]}
             horizontal
             contentContainerStyle={{
               paddingHorizontal: spacing.large,
@@ -354,72 +292,10 @@ const Shop = ({navigation}) => {
         useFilter
         title="Rekomendasi Tanaman"
         description="Kami pilihin yang baik #untukbumi dan kemudahan dalam merawatnya.">
-        <HStack
-          padding={{
-            paddingHorizontal: spacing.large,
-          }}
-          spacing={spacing.standard}>
-          <Button
-            text={{
-              type: 'body',
-              weight: '02',
-              text: 'Paling Laris',
-            }}
-            borderRadius={spacing.tiny}
-            backgroundColor={pallate.neutral['01']}
-            trailing={
-              <Icon
-                name="IconArrowsSort"
-                size={14}
-                color={pallate.neutral['05']}
-              />
-            }
-          />
-          <Divider horizontal color={pallate.neutral['04']} thickness={1} />
-          <Flex fill>
-            <FlashList
-              data={categories}
-              extraData={category}
-              horizontal
-              contentContainerStyle={{
-                paddingRight: spacing.extraLarge,
-              }}
-              showsHorizontalScrollIndicator={false}
-              ItemSeparatorComponent={() => (
-                <Divider horizontal thickness={spacing.small} />
-              )}
-              estimatedItemSize={111}
-              ListHeaderComponent={ListHeaderComponentPlants}
-              renderItem={({item}) => (
-                <Button
-                  key={item.key}
-                  onPress={() =>
-                    setCategory({...category, category_id: item.key})
-                  }
-                  text={{
-                    type: 'body',
-                    weight: '02',
-                    color:
-                      category.category_id === item.key
-                        ? pallate.neutral['01']
-                        : pallate.neutral['05'],
-                    text: item.name,
-                  }}
-                  borderRadius={10}
-                  backgroundColor={
-                    category.category_id === item.key
-                      ? pallate.primary['03']
-                      : pallate.neutral['01']
-                  }
-                />
-              )}
-            />
-          </Flex>
-        </HStack>
         <Flex height={340}>
           <FlashList
-            data={data}
-            extraData={data}
+            data={[]}
+            extraData={[]}
             horizontal
             contentContainerStyle={{
               paddingHorizontal: spacing.large,

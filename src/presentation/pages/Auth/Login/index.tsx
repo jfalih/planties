@@ -1,11 +1,8 @@
 import React, {useCallback, useState} from 'react';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import auth from '@react-native-firebase/auth';
 import {Controller, useForm} from 'react-hook-form';
 import Toast from 'react-native-toast-message';
-import {StyleSheet} from 'react-native';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 import {useTheme} from '../../../../services/context/Theme/Theme.context';
 import Container from '../../../components/organisms/Container';
@@ -15,12 +12,12 @@ import Button from '../../../components/atoms/Button';
 import Pressable from '../../../components/atoms/Pressable';
 import {HStack, VStack} from '../../../components/atoms/Layout/Stack';
 import {RootStackParamList} from '../../../../navigation/routes';
-import {useAuth} from '../../../../services/context/Auth/Auth.context';
 
 import Divider from '../../../components/atoms/Layout/Divider';
-import {LogoApple, LogoFacebook, LogoGoogle} from '../../../../assets';
 import Icon from '../../../components/atoms/Icon';
 import {Flex} from '../../../components/atoms/Layout';
+import {useLogin} from '../../../../core/apis/auth';
+import {useAuth} from '../../../../services/context/Auth/Auth.context';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -28,7 +25,8 @@ const Login = ({navigation}: Props) => {
   const {spacing, pallate} = useTheme();
   const [secure, setSecure] = useState(true);
   const [remember, setRemember] = useState(false);
-  const {handleUser} = useAuth();
+  const {setToken, setRefreshToken} = useAuth();
+  const {mutate} = useLogin();
   const {
     control,
     handleSubmit,
@@ -42,44 +40,40 @@ const Login = ({navigation}: Props) => {
   });
 
   const handleLogin = handleSubmit(async data => {
-    try {
-      const res = await auth().signInWithEmailAndPassword(
-        data.email,
-        data.password,
-      );
-      if (res.user.emailVerified) {
-        handleUser(res.user);
-        navigation.navigate('BottomNavigation');
-      } else {
-        navigation.navigate('Auth', {screen: 'EmailVerification'});
-      }
-    } catch (e: any) {
-      Toast.show({
-        type: 'error',
-        text1: 'Hmm, kami nemu error nih!',
-        text2: e?.message || 'Server sedang sibuk...',
-      });
-    }
+    mutate(
+      {
+        email: data.email,
+        password: data.password,
+      },
+      {
+        onSuccess(res) {
+          const {accessToken, refreshToken} = res.data.data || {};
+          if (accessToken && refreshToken) {
+            setToken(accessToken);
+            setRefreshToken(refreshToken);
+            navigation.navigate('BottomNavigation');
+            return;
+          }
+          Toast.show({
+            type: 'error',
+            text1: 'Hmm, kami nemu error nih!',
+            text2: 'Login Failed, Server sedang sibuk...',
+          });
+        },
+        onError(e) {
+          Toast.show({
+            type: 'error',
+            text1: 'Hmm, kami nemu error nih!',
+            text2: e?.response?.data?.message || 'Server sedang sibuk...',
+          });
+        },
+      },
+    );
   });
 
   const handleRegister = useCallback(() => {
     navigation.navigate('Register');
   }, [navigation]);
-
-  const handleGoogleLogin = useCallback(async () => {
-    try {
-      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-      const {idToken} = await GoogleSignin.signIn();
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      await auth().signInWithCredential(googleCredential);
-    } catch (e) {
-      Toast.show({
-        type: 'error',
-        text1: 'Hmm, kami nemu error nih!',
-        text2: (e as Error).message || 'Server sedang sibuk...',
-      });
-    }
-  }, []);
 
   return (
     <Container
@@ -199,13 +193,6 @@ const Login = ({navigation}: Props) => {
                 Remember Me
               </Text>
             </Pressable>
-            <Pressable
-              onPress={() => navigation.navigate('Forgot')}
-              self="stretch">
-              <Text underline type="body" weight="02">
-                Forgot Password?
-              </Text>
-            </Pressable>
           </HStack>
         </VStack>
         <VStack spacing={spacing.small} items="center">
@@ -234,77 +221,8 @@ const Login = ({navigation}: Props) => {
           </HStack>
         </VStack>
       </VStack>
-      <HStack width={'100%'} spacing={spacing.standard} items="center">
-        <Divider style={loginStyle.fill} color={pallate.neutral['03']} />
-        <Text color={pallate.neutral['04']} type="title" weight="05">
-          OR
-        </Text>
-        <Divider style={loginStyle.fill} color={pallate.neutral['03']} />
-      </HStack>
-      <VStack spacing={spacing.standard}>
-        <Button
-          disabled={isSubmitting}
-          onPress={handleGoogleLogin}
-          self="stretch"
-          backgroundColor={pallate.neutral['02']}
-          borderRadius={12}
-          height={50}
-          borderColor={pallate.neutral['04']}
-          items="center"
-          justify="center"
-          leading={<LogoGoogle />}
-          text={{
-            type: 'button',
-            weight: '02',
-            text: 'Continue With Google',
-            color: pallate.neutral['04'],
-          }}
-        />
-        <Button
-          disabled={isSubmitting}
-          onPress={() => {}}
-          self="stretch"
-          backgroundColor={pallate.neutral['02']}
-          borderRadius={12}
-          height={50}
-          borderColor={pallate.neutral['04']}
-          items="center"
-          justify="center"
-          leading={<LogoFacebook />}
-          text={{
-            type: 'button',
-            weight: '02',
-            text: 'Continue With Facebook',
-            color: pallate.neutral['04'],
-          }}
-        />
-        <Button
-          disabled={isSubmitting}
-          onPress={() => {}}
-          self="stretch"
-          backgroundColor={pallate.neutral['02']}
-          borderRadius={12}
-          height={50}
-          borderColor={pallate.neutral['04']}
-          items="center"
-          justify="center"
-          leading={<LogoApple />}
-          text={{
-            type: 'button',
-            weight: '02',
-            text: 'Continue With Apple',
-            color: pallate.neutral['04'],
-          }}
-        />
-      </VStack>
     </Container>
   );
 };
-
-const loginStyle = StyleSheet.create({
-  fill: {
-    flex: 1,
-  },
-});
 
 export default Login;

@@ -121,46 +121,6 @@ const AddGarden = ({route, navigation}) => {
         />
       </HStack>
       <Text type="title" weight="03">
-        Tanaman
-      </Text>
-      <Flex justify="space-between" wrap>
-        {plants?.map(val => (
-          <Card
-            type="plant"
-            width={width / 3 - spacing.large * 2 + spacing.small * 3}
-            margin={{
-              marginBottom: spacing.large,
-            }}
-            source={{
-              uri: val.image,
-            }}
-            name={val.name}
-          />
-        ))}
-        <Pressable
-          onPress={handlePressPlant}
-          backgroundColor={pallate.neutral['03']}
-          borderRadius={12}
-          width={width / 3 - spacing.large * 2 + spacing.small * 3}
-          height={154}>
-          <VStack
-            padding={spacing.medium}
-            spacing={spacing.small}
-            fill
-            items="center"
-            justify="center">
-            <Icon name="IconPlus" size={32} color={pallate.neutral['05']} />
-            <Text
-              align="center"
-              color={pallate.neutral['05']}
-              type="title"
-              weight="06">
-              Tambah Tanaman
-            </Text>
-          </VStack>
-        </Pressable>
-      </Flex>
-      <Text type="title" weight="03">
         Gallery
       </Text>
       <Flex

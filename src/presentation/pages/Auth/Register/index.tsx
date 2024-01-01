@@ -9,9 +9,9 @@ import Pressable from '../../../components/atoms/Pressable';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../../navigation/routes';
 import {Controller, useForm} from 'react-hook-form';
-import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
 import Icon from '../../../components/atoms/Icon';
+import {useRegister} from '../../../../core/apis/auth';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 const Register = ({navigation}: Props) => {
@@ -20,12 +20,12 @@ const Register = ({navigation}: Props) => {
     password: true,
     confirm_password: true,
   });
+  const {mutate} = useRegister();
   const {
     control,
     handleSubmit,
     watch,
     formState: {isSubmitting},
-    reset,
   } = useForm({
     mode: 'all',
     defaultValues: {
@@ -37,28 +37,30 @@ const Register = ({navigation}: Props) => {
   });
 
   const handleRegister = handleSubmit(async data => {
-    try {
-      await auth().createUserWithEmailAndPassword(data.email, data.password);
-      const user = auth().currentUser;
-      if (user) {
-        await user.updateProfile({
-          displayName: data.fullname,
-        });
-        await user?.sendEmailVerification();
-        reset();
-        Toast.show({
-          type: 'success',
-          text1: 'Yey, berhasil nih!',
-          text2: 'Kamu berhasil mendaftarkan akun, silahkan login ya..!',
-        });
-      }
-    } catch (e) {
-      Toast.show({
-        type: 'error',
-        text1: 'Hmm, kami nemu error nih!',
-        text2: (e as Error)?.message || 'Server sedang sibuk...',
-      });
-    }
+    mutate(
+      {
+        email: data.email,
+        password: data.password,
+        name: data.fullname,
+      },
+      {
+        onSuccess() {
+          Toast.show({
+            type: 'success',
+            text1: 'Yey, berhasil nih!',
+            text2: 'Kamu berhasil mendaftarkan akun, silahkan login ya..!',
+          });
+          navigation.navigate('Login');
+        },
+        onError(e) {
+          Toast.show({
+            type: 'error',
+            text1: 'Hmm, kami nemu error nih!',
+            text2: e?.response?.data?.message || 'Server sedang sibuk...',
+          });
+        },
+      },
+    );
   });
 
   const handleLogin = useCallback(() => {
@@ -179,7 +181,7 @@ const Register = ({navigation}: Props) => {
                       }))
                     }>
                     <Icon
-                      name={secure ? 'IconEyeClosed' : 'IconEye'}
+                      name={secure.password ? 'IconEyeClosed' : 'IconEye'}
                       color="#000"
                       size={24}
                     />
@@ -229,7 +231,9 @@ const Register = ({navigation}: Props) => {
                       }))
                     }>
                     <Icon
-                      name={secure ? 'IconEyeClosed' : 'IconEye'}
+                      name={
+                        secure.confirm_password ? 'IconEyeClosed' : 'IconEye'
+                      }
                       color="#000"
                       size={24}
                     />
