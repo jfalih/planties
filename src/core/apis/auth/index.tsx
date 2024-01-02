@@ -31,14 +31,13 @@ export const profileKeys = createQueryKeys('profile', {
   },
 });
 
-export const useProfile = (
-  options: UseQueryOptions<UserSuccess, UserError, UserSuccess, QueryKey>,
-) =>
+export const useProfile = (options: UseQueryOptions<any>) =>
   useQuery({
     ...profileKeys.profile,
     ...options,
   });
 export const useRegister = () =>
   useMutation<RegisterSuccess, AuthError, RegisterBody, unknown>(register);
+
 export const useLogin = () =>
   useMutation<LoginSuccess, AuthError, LoginBody, unknown>(login);

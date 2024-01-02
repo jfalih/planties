@@ -171,7 +171,7 @@ const Welcome: React.FC<WelcomeProps> = React.memo(
                 type="body"
                 weight="01"
                 color={pallate.neutral['04']}
-                text={`Kamu memiliki ${gardens.length} Kebun`}
+                text={`Kamu memiliki ${gardens?.length || 0} Kebun`}
               />
             </VStack>
             <Button
@@ -205,9 +205,9 @@ const Welcome: React.FC<WelcomeProps> = React.memo(
               renderItem={({item}) => (
                 <Card
                   type="garden"
-                  plants={item.photos}
+                  plants={item.plantsBanner}
                   name={item.name}
-                  onPress={() => onPressGarden(item.key)}
+                  onPress={() => onPressGarden(item.id)}
                 />
               )}
             />

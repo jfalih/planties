@@ -5,19 +5,25 @@ import {useTheme} from '../../../../services/context/Theme/Theme.context';
 import Divider from '../../../components/atoms/Layout/Divider';
 import {Box, Flex} from '../../../components/atoms/Layout';
 import Card from '../../../components/molecules/Card';
-import {useRecommendationPlants} from '../../../../core/apis/Plants/usePlants';
 import {VStack} from '../../../components/atoms/Layout/Stack';
 import {useWindowDimensions} from 'react-native';
 import Icon from '../../../components/atoms/Icon';
 import Text from '../../../components/atoms/Text';
+import {useItems} from '../../../../core/apis/marketplace';
 
 const Category = ({route, navigation}) => {
   const {spacing, pallate} = useTheme();
   const {category, category_id} = route.params;
-  const [catId, setCatId] = useState<string>(category_id);
-  const {data, loading} = useRecommendationPlants(catId);
+  const [name, setName] = useState('');
+  const [cat, setCat] = useState<string>(category);
+  const {data: items} = useItems({
+    type: cat.toLowerCase(),
+    name,
+  });
+  const {marketplace_items} = items?.data?.data || {};
   const {width, height} = useWindowDimensions();
-  const onSelectCategory = (item: string) => setCatId(item);
+  const onSelectCategory = (item: string) => setCat(item);
+  const onSearch = (item: string) => setName(item);
 
   const ListEmptyComponentPlants = useCallback(() => {
     return (
@@ -63,8 +69,9 @@ const Category = ({route, navigation}) => {
       navbar={{
         type: 'commerce',
         title: category,
-        categoryId: catId,
+        category: cat,
         onSelectCategory,
+        onSearch,
       }}
       backgroundColor={pallate.neutral['02']}
       scrollable
@@ -75,9 +82,8 @@ const Category = ({route, navigation}) => {
       }}>
       <MasonryFlashList
         numColumns={2}
-        data={data}
+        data={marketplace_items}
         ListEmptyComponent={ListEmptyComponentPlants}
-        extraData={[data, catId]}
         estimatedItemSize={340}
         ItemSeparatorComponent={() => <Divider thickness={spacing.large} />}
         renderItem={({item, columnIndex}) => (
@@ -89,11 +95,11 @@ const Category = ({route, navigation}) => {
             <Card
               onPress={() =>
                 navigation.navigate('ProductDetail', {
-                  id: item.key,
+                  id: item.id,
                   type: 'plants',
                 })
               }
-              source={{uri: item.images?.[0]}}
+              source={{uri: item.cover}}
               type="commerce"
               title={item.name}
               price={item.price}

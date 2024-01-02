@@ -9,27 +9,26 @@ import Divider from '../../../atoms/Layout/Divider';
 import {FlashList} from '@shopify/flash-list';
 import {Flex} from '../../../atoms/Layout';
 import SearchBar from '../../../atoms/SearchBar';
-import {useCategories} from '../../../../../core/apis/Categories/useCategories';
-import {useWindowDimensions} from 'react-native';
 
 export interface CommerceProps extends VStackProps {
   title?: string;
-  categoryId?: string;
+  category?: string;
+  onSearch?: (item: string) => void;
   onSelectCategory?: (category: string) => void;
 }
 
 const Commerce: React.FC<CommerceProps> = props => {
-  const {title, categoryId, onSelectCategory, ...rest} = props;
+  const {title, category, onSearch, onSelectCategory, ...rest} = props;
   const navigation = useNavigation();
   const {spacing, pallate} = useTheme();
-  const {data} = useCategories();
+  const data = ['Buah', 'Hias', 'Alat', 'Benih'];
 
   const ItemSeparatorComponent = useCallback(
     () => <Divider horizontal thickness={spacing.small} />,
     [spacing.small],
   );
 
-  const dataTitle = data.find(val => val.key === categoryId);
+  const dataTitle = data.find(val => val === category);
 
   return (
     <VStack
@@ -57,35 +56,19 @@ const Commerce: React.FC<CommerceProps> = props => {
             fill: true,
           }}
           placeholder={`Kamu mau cari ${
-            dataTitle?.name.toLocaleLowerCase() || title?.toLocaleLowerCase()
+            dataTitle?.toLocaleLowerCase() || title?.toLocaleLowerCase()
           }?`}
+          onChangeText={text => onSearch(text)}
           padding={{
             paddingHorizontal: spacing.medium,
           }}
         />
       </HStack>
       <HStack spacing={spacing.standard}>
-        <Button
-          text={{
-            type: 'body',
-            weight: '02',
-            text: 'Selected',
-          }}
-          borderRadius={spacing.tiny}
-          backgroundColor={pallate.neutral['01']}
-          trailing={
-            <Icon
-              name="IconArrowsSort"
-              size={14}
-              color={pallate.neutral['05']}
-            />
-          }
-        />
-        <Divider horizontal color={pallate.neutral['03']} thickness={1} />
         <Flex fill>
           <FlashList
             data={data}
-            extraData={categoryId}
+            extraData={category}
             horizontal
             contentContainerStyle={{
               paddingRight: spacing.extraLarge,
@@ -95,19 +78,19 @@ const Commerce: React.FC<CommerceProps> = props => {
             estimatedItemSize={111}
             renderItem={({item}) => (
               <Button
-                onPress={() => onSelectCategory?.(item.key)}
+                onPress={() => onSelectCategory?.(item)}
                 text={{
                   type: 'body',
                   weight: '02',
                   color:
-                    item.key === categoryId
+                    item === category
                       ? pallate.neutral['01']
                       : pallate.neutral['05'],
-                  text: item.name,
+                  text: item,
                 }}
                 borderRadius={spacing.tiny}
                 backgroundColor={
-                  item.key === categoryId
+                  item === category
                     ? pallate.primary['03']
                     : pallate.neutral['01']
                 }

@@ -9,20 +9,16 @@ import Icon from '../../../components/atoms/Icon';
 import Section from '../../../components/organisms/Section';
 import {FlashList} from '@shopify/flash-list';
 import Card from '../../../components/molecules/Card';
-import {usePlant} from '../../../../core/apis/Plants/usePlants';
-import {addToCart} from '../../../../core/apis/Cart/useCart';
 import Divider from '../../../components/atoms/Layout/Divider';
 import currency from '../../../../core/utils/currency';
-import {useMedium} from '../../../../core/apis/Plants/useMedium';
-import useVideos from '../../../../core/apis/Plants/useVideos';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useShopDetail} from '../../../../core/apis/shop';
 
 const Detail = ({route, navigation}) => {
   const {spacing, pallate} = useTheme();
   const {id, type} = route.params;
-  const {data} = usePlant(id, type);
-  const {data: medium} = useMedium();
-  const {data: videos} = useVideos(id);
+  const {data} = useShopDetail(id);
+  console.log('test', data);
   const {top} = useSafeAreaInsets();
   return (
     <Container
@@ -215,69 +211,6 @@ const Detail = ({route, navigation}) => {
           </HStack>
         )}
       </VStack>
-      {type !== 'medium' && (
-        <Section
-          title="Cara Merawat"
-          description="Lorem ipsum dolor sit amet consectetur. Lobortis egestas dolor venenatis arcu tristique est odio feugiat.">
-          <Flex height={200}>
-            <FlashList
-              data={videos}
-              horizontal
-              contentContainerStyle={{
-                paddingHorizontal: spacing.large,
-              }}
-              ItemSeparatorComponent={() => (
-                <Divider horizontal thickness={20} />
-              )}
-              estimatedItemSize={180}
-              renderItem={({item}) => (
-                <Card
-                  source={{
-                    uri: item.imageCover,
-                  }}
-                  key={item.key}
-                  type="video"
-                  title={item.title}
-                />
-              )}
-            />
-          </Flex>
-        </Section>
-      )}
-      <Section
-        title="Media tanam yang cocok"
-        description="Media tanam yang direkomendasikan untuk Philodendron.">
-        <Flex height={340}>
-          <FlashList
-            data={medium}
-            horizontal
-            contentContainerStyle={{
-              paddingHorizontal: spacing.large,
-            }}
-            ItemSeparatorComponent={() => <Divider horizontal thickness={20} />}
-            estimatedItemSize={180}
-            renderItem={({item}) => (
-              <Card
-                key={item.key}
-                type="commerce"
-                title={item.name}
-                onPress={() =>
-                  navigation.navigate('ProductDetail', {
-                    id: item.key,
-                    type: 'medium',
-                  })
-                }
-                onPressAddToCart={() => addToCart(item.key, user.uid)}
-                onPressAddToWishlist={() => {}}
-                source={{
-                  uri: item.photos[0],
-                }}
-                price={item.price}
-              />
-            )}
-          />
-        </Flex>
-      </Section>
     </Container>
   );
 };

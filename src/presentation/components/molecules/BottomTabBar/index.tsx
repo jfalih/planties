@@ -6,41 +6,50 @@ import {Dimensions} from 'react-native';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 const BottomTabBar = props => {
-  const {state, descriptors, theme, navigation} = props;
+  const {state, descriptors, cart, theme, navigation} = props;
   const {pallate, spacing} = theme;
   const {width} = Dimensions.get('window');
-
   return (
     <VStack
       position={{
         bottom: 10,
         left: spacing.standard,
       }}>
-      {/* <Pressable
-        fill
-        backgroundColor={pallate.primary['04']}
-        self="stretch"
-        margin={{
-          marginBottom: -30,
-        }}
-        borderRadius={{
-          borderTopLeftRadius: 30,
-          borderTopRightRadius: 30,
-        }}
-        padding={{
-          paddingHorizontal: spacing.large,
-          paddingBottom: spacing.medium * 2,
-          paddingTop: spacing.standard,
-        }}>
-        <VStack>
-          <Text type="title" weight="06" color={pallate.neutral['01']}>
-            20 Item
+      {cart?.length && (
+        <Pressable
+          fill
+          backgroundColor={pallate.primary['04']}
+          self="stretch"
+          items="center"
+          margin={{
+            marginBottom: -30,
+          }}
+          borderRadius={{
+            borderTopLeftRadius: 30,
+            borderTopRightRadius: 30,
+          }}
+          padding={{
+            paddingHorizontal: spacing.large,
+            paddingBottom: spacing.medium * 2,
+            paddingTop: spacing.standard,
+          }}>
+          <VStack fill>
+            <Text type="title" weight="06" color={pallate.neutral['01']}>
+              20 Item
+            </Text>
+            <Text
+              color={pallate.neutral['01']}
+              numberOfLines={1}
+              type="body"
+              weight="02">
+              Lorem, ipsum, dolor, sit, amet
+            </Text>
+          </VStack>
+          <Text type="title" weight="04" color={pallate.neutral['01']}>
+            Rp100.000
           </Text>
-          <Text type="body" weight="02">
-            Lorem, ipsum, dolor, sit, amet...
-          </Text>
-        </VStack>
-      </Pressable> */}
+        </Pressable>
+      )}
       <HStack
         style={{
           display:

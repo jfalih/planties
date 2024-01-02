@@ -7,20 +7,16 @@ import {
   VStack,
 } from '../../../components/atoms/Layout/Stack';
 import {useTheme} from '../../../../services/context/Theme/Theme.context';
-import useDiagnose from '../../../../core/apis/Plants/useDiagnose';
 import Image from '../../../components/atoms/Image';
-import {StyleSheet, useWindowDimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Icon from '../../../components/atoms/Icon';
-import useAttention from '../../../../core/apis/Plants/useAttention';
 import Accordion from 'react-native-collapsible/Accordion';
-import Flex, {FlexAnimated} from '../../../components/atoms/Layout/Flex';
-import {Easing, useAnimatedStyle, withTiming} from 'react-native-reanimated';
 
 const Detail = ({route, navigation}) => {
   const {spacing, pallate} = useTheme();
   const {diagnoseId} = route.params;
-  const {data: diagnose} = useDiagnose(diagnoseId);
-  const {data: attention} = useAttention(diagnose?.status);
+  const {data: diagnose} = undefined;
+  const {data: attention} = undefined;
   const [active, setActive] = useState([]);
 
   const _renderContent = useCallback(

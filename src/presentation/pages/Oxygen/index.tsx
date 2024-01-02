@@ -5,18 +5,22 @@ import {HStack, VStack} from '../../components/atoms/Layout/Stack';
 import {useTheme} from '../../../services/context/Theme/Theme.context';
 import Text from '../../components/atoms/Text';
 import {FlashList} from '@shopify/flash-list';
-import useOxygen, {useUserOxygen} from '../../../core/apis/Plants/useOxygen';
 import currency from '../../../core/utils/currency';
 import Divider from '../../components/atoms/Layout/Divider';
 import LinearGradient from 'react-native-linear-gradient';
 import {Box} from '../../components/atoms/Layout';
 import {SVGClown} from '../../../assets';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useOxygens} from '../../../core/apis/oxygens';
+import {useProfile} from '../../../core/apis/auth';
 
 const Oxygen = () => {
   const {spacing, pallate} = useTheme();
-  const {data: oxygen} = useOxygen();
-  const {data: userOxygen} = useUserOxygen();
+  const {data: oxygens} = useOxygens();
+  const {data: profile} = useProfile();
+  const {oxygen} = oxygens?.data?.data || {};
+  const {user} = profile?.data.data || {};
+  const {data: userOxygen} = {};
   const {top} = useSafeAreaInsets();
   const ItemSeparatorComponent = () => <Divider thickness={spacing.standard} />;
   const generateColors = useCallback((id: number) => {
@@ -60,7 +64,7 @@ const Oxygen = () => {
         backgroundColor={pallate.neutral['01']}>
         <HStack spacing={spacing.small} items="center">
           <Text type="title" color={pallate.info['03']} weight="01">
-            #{userOxygen?.rank || 0}
+            #{user?.oxygenRank || 0}
           </Text>
           <Text type="body" color={pallate.info['03']} weight="01">
             Kontribusi Oksigen
@@ -83,7 +87,7 @@ const Oxygen = () => {
             weight="01">
             Kamu telah menghasilkan{' '}
             <Text type="title" weight="05">
-              {currency(userOxygen?.oxygen, {symbol: 'mg'}) || 0}
+              {currency(user?.oxygen, {symbol: 'mg'}) || 0}
             </Text>{' '}
             oksigen
           </Text>
@@ -91,6 +95,7 @@ const Oxygen = () => {
       </VStack>
       <FlashList
         data={oxygen}
+        extraData={oxygen}
         contentContainerStyle={{
           paddingHorizontal: spacing.large,
           paddingTop: spacing.large,

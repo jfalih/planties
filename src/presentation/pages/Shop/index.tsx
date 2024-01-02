@@ -16,25 +16,56 @@ import {Flex} from '../../components/atoms/Layout';
 import {FlashList} from '@shopify/flash-list';
 import Divider from '../../components/atoms/Layout/Divider';
 import Card from '../../components/molecules/Card';
-import {
-  useRecommendationPlants,
-  useUserPlants,
-} from '../../../core/apis/Plants/usePlants';
 import Carousel from '../../components/molecules/Carousel';
 import SearchBar from '../../components/atoms/SearchBar';
 import {useWindowDimensions} from 'react-native';
 import {useCategories} from '../../../core/apis/Categories/useCategories';
-import {addToCart} from '../../../core/apis/Cart/useCart';
 import {useAuth} from '../../../services/context/Auth/Auth.context';
-import {useMedium} from '../../../core/apis/Plants/useMedium';
 import firestore from '@react-native-firebase/firestore';
 import Toast from 'react-native-toast-message';
+import {useItems} from '../../../core/apis/marketplace';
+import {cartKeys, useAddCart, useCart} from '../../../core/apis/cart';
+import {useQueryClient} from '@tanstack/react-query';
 
 const Shop = ({navigation}) => {
   const {user} = useAuth();
   const {pallate, spacing} = useTheme();
-  const {data: plants} = useUserPlants();
   const {width} = useWindowDimensions();
+  const {data: items} = useItems({
+    type: 'buah',
+  });
+  const {mutate} = useAddCart();
+  const queryClient = useQueryClient();
+  const {marketplace_items: recommendationHias} = items?.data?.data || {};
+  const {data: benih} = useItems({
+    type: 'benih',
+  });
+  const {marketplace_items: recommendationBenih} = benih?.data?.data || {};
+  const handleAddToCart = useCallback(
+    id => {
+      mutate(
+        {
+          item: id,
+          quantity: 1,
+        },
+        {
+          onSettled() {
+            queryClient.invalidateQueries({
+              queryKey: cartKeys._def,
+            });
+          },
+          onSuccess() {
+            Toast.show({
+              type: 'success',
+              text1: 'Yey berhasil nih!',
+              text2: 'Berhasil menamgbahkan tanaman!',
+            });
+          },
+        },
+      );
+    },
+    [mutate, queryClient],
+  );
   const [category, setCategory] = useState<{
     filter: string;
     category_id: string;
@@ -43,8 +74,6 @@ const Shop = ({navigation}) => {
     category_id: '',
   });
 
-  const {data} = useRecommendationPlants(category.category_id);
-  const {data: medium} = useMedium();
   const {data: categories} = useCategories();
 
   const ListHeaderComponentPlants = useCallback(() => {
@@ -254,11 +283,11 @@ const Shop = ({navigation}) => {
       </Section>
       <Section
         useFilter
-        title="Media tanam untukmu"
-        description="Media tanam yang direkomendasikan sesuai tanaman yang kamu miliki.">
+        title="Tanaman Buah Untukmu"
+        description="Tanaman buah yang direkomendasikan sesuai yang kamu inginkan.">
         <Flex height={340}>
           <FlashList
-            data={[]}
+            data={recommendationHias}
             horizontal
             contentContainerStyle={{
               paddingHorizontal: spacing.large,
@@ -277,10 +306,10 @@ const Shop = ({navigation}) => {
                     type: 'medium',
                   })
                 }
-                onPressAddToCart={() => {}}
+                onPressAddToCart={() => handleAddToCart(item.id)}
                 onPressAddToWishlist={() => handlePressWishlist(item.key)}
                 source={{
-                  uri: item.photos[0],
+                  uri: item.cover,
                 }}
               />
             )}
@@ -290,12 +319,12 @@ const Shop = ({navigation}) => {
 
       <Section
         useFilter
-        title="Rekomendasi Tanaman"
+        title="Rekomendasi Benih"
         description="Kami pilihin yang baik #untukbumi dan kemudahan dalam merawatnya.">
         <Flex height={340}>
           <FlashList
-            data={[]}
-            extraData={[]}
+            data={recommendationBenih}
+            extraData={recommendationBenih}
             horizontal
             contentContainerStyle={{
               paddingHorizontal: spacing.large,
@@ -305,19 +334,21 @@ const Shop = ({navigation}) => {
             estimatedItemSize={180}
             renderItem={({item}) => (
               <Card
-                key={item.key}
+                key={item.id}
                 type="commerce"
                 title={item.name}
                 onPress={() =>
                   navigation.navigate('ProductDetail', {
-                    id: item.key,
+                    id: item.id,
                     type: 'plants',
                   })
                 }
-                onPressAddToCart={() => addToCart(item.key, user.uid)}
-                onPressAddToWishList={() => handlePressWishlist(item.key)}
+                onPressAddToCart={() => {
+                  handleAddToCart(item.id);
+                }}
+                onPressAddToWishList={() => handlePressWishlist(item.id)}
                 source={{
-                  uri: item.images[0],
+                  uri: item.cover,
                 }}
                 price={item.price}
               />

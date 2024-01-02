@@ -6,38 +6,48 @@ import {useTheme} from '../../../../services/context/Theme/Theme.context';
 import Pressable from '../../../components/atoms/Pressable';
 import Icon from '../../../components/atoms/Icon';
 import Button from '../../../components/atoms/Button';
-import {Flex} from '../../../components/atoms/Layout';
-import Card from '../../../components/molecules/Card';
-import storage from '@react-native-firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 import Input from '../../../components/atoms/Input';
 import Toast from 'react-native-toast-message';
 import Image from '../../../components/atoms/Image';
 import {useWindowDimensions} from 'react-native';
+import {gardenKeys, useGarden} from '../../../../core/apis/garden';
+import {Controller, useForm} from 'react-hook-form';
+import {useQueryClient} from '@tanstack/react-query';
 
 const AddGarden = ({route, navigation}) => {
   const {spacing, pallate} = useTheme();
-  const {plants} = route?.params || {};
   const [images, setImages] = useState<string[]>([]);
+  const [preview, setPreview] = useState<string[]>([]);
   const {width} = useWindowDimensions();
+  const queryClient = useQueryClient();
+  const {mutate, isLoading} = useGarden();
+  const {
+    control,
+    handleSubmit,
+    formState: {isSubmitting},
+  } = useForm({
+    mode: 'all',
+    defaultValues: {
+      name: '',
+      type: 'indoor',
+    },
+  });
+
   const onPressLibrary = useCallback(async () => {
     try {
       const result = await launchImageLibrary({
         mediaType: 'photo',
+        includeBase64: true,
       });
       if (result?.assets) {
-        const {uri, fileName} = result.assets[0];
-        const ref = storage().ref(fileName);
-        if (uri) {
-          await ref.putFile(uri);
-          const url = await ref.getDownloadURL();
-          setImages([...images, url]);
-          Toast.show({
-            type: 'success',
-            text1: 'Yey, berhasil nih!',
-            text2: 'Kamu berhasil mengupload foto..',
-          });
-        }
+        setImages(prev => [...prev, result.assets[0]?.base64]);
+        setPreview(prev => [...prev, result.assets[0]?.uri]);
+        Toast.show({
+          type: 'success',
+          text1: 'Yey, berhasil nih!',
+          text2: 'Kamu berhasil mengupload foto..',
+        });
       }
     } catch (e) {
       Toast.show({
@@ -46,17 +56,37 @@ const AddGarden = ({route, navigation}) => {
         text2: e?.message || 'Server sedang sibuk...',
       });
     }
-  }, [images]);
+  }, []);
 
-  const handlePressPlant = useCallback(() => {
-    navigation.navigate('AddPlant', {
-      plants,
-    });
-  }, [navigation, plants]);
-
-  const handlePressSave = useCallback(() => {
-    navigation.navigate('AddPlant');
-  }, [navigation]);
+  const handlePressSave = handleSubmit(async data => {
+    mutate(
+      {
+        name: data.name,
+        type: 'indoor',
+        photos: images,
+      },
+      {
+        onSuccess() {
+          Toast.show({
+            type: 'success',
+            text1: 'Yey, berhasil nih!',
+            text2: 'Kamu berhasil menambahkan garden..!',
+          });
+          queryClient.invalidateQueries({
+            queryKey: gardenKeys._def,
+          });
+          navigation.goBack();
+        },
+        onError(e) {
+          Toast.show({
+            type: 'error',
+            text1: 'Hmm, kami nemu error nih!',
+            text2: e?.response?.data?.message || 'Server sedang sibuk...',
+          });
+        },
+      },
+    );
+  });
 
   const Trailing = useMemo(() => {
     return (
@@ -90,14 +120,30 @@ const AddGarden = ({route, navigation}) => {
       scrollable
       spacing={spacing.large}
       padding={spacing.large}>
-      <Input
-        icon={{
-          name: 'IconBox',
-          color: pallate.neutral['05'],
-          size: 20,
+      <Controller
+        control={control}
+        rules={{
+          required: {
+            value: true,
+            message: 'Diisi dulu ya, nama kebun kamu.',
+          },
         }}
-        backgroundColor={pallate.neutral['01']}
-        placeholder="Isi Nama Kebun"
+        name="name"
+        render={({field: {onChange, onBlur, value}, fieldState: {error}}) => (
+          <Input
+            icon={{
+              name: 'IconBox',
+              color: pallate.neutral['05'],
+              size: 20,
+            }}
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={error?.message}
+            backgroundColor={pallate.neutral['01']}
+            placeholder="Isi Nama Kebun"
+          />
+        )}
       />
       <HStack items="center">
         <Text fill type="body" weight="01">
@@ -111,22 +157,16 @@ const AddGarden = ({route, navigation}) => {
             type: 'button',
             weight: '03',
           }}
-          trailing={
-            <Icon
-              size={16}
-              color={pallate.neutral['05']}
-              name={'IconChevronDown'}
-            />
-          }
         />
       </HStack>
       <Text type="title" weight="03">
         Gallery
       </Text>
-      <Flex
-        justify={images.length % 2 === 0 ? 'space-between' : 'flex-start'}
+      <HStack
+        spacing={preview?.length % 2 === 0 ? undefined : spacing.medium}
+        justify={preview?.length % 2 === 0 ? 'space-between' : 'flex-start'}
         wrap>
-        {images?.map((val, index) => (
+        {preview?.map((val, index) => (
           <Image
             margin={{
               marginBottom: spacing.standard,
@@ -134,8 +174,8 @@ const AddGarden = ({route, navigation}) => {
             key={val}
             source={{uri: val}}
             borderRadius={12}
-            width={111}
-            height={154}
+            width={width / 3 - spacing.standard * 3}
+            height={140}
           />
         ))}
         <Pressable
@@ -155,7 +195,7 @@ const AddGarden = ({route, navigation}) => {
             </Text>
           </VStack>
         </Pressable>
-      </Flex>
+      </HStack>
     </Container>
   );
 };

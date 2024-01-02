@@ -64,20 +64,10 @@ const Garden = (props: GardenProps) => {
                 height={68}
                 borderRadius={12}
                 source={{
-                  uri: item.image,
+                  uri: item,
                 }}
                 resize="cover"
               />
-              {item?.attention && plants.length - 1 === i && (
-                <Box
-                  position={{
-                    bottom: 5,
-                    right: -5,
-                  }}
-                  backgroundColor={'transparent'}
-                  as={<Status type={item?.attention} width={20} height={20} />}
-                />
-              )}
             </BoxAnimated>
           );
         })}

@@ -1,13 +1,12 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import Container from '../../../components/organisms/Container';
 import Text from '../../../components/atoms/Text';
 import {HStack, VStack} from '../../../components/atoms/Layout/Stack';
 import {useTheme} from '../../../../services/context/Theme/Theme.context';
 import Pressable from '../../../components/atoms/Pressable';
 import Icon from '../../../components/atoms/Icon';
-import {Box, Flex} from '../../../components/atoms/Layout';
-import {ImageBackground, TextInput, useWindowDimensions} from 'react-native';
-import storage from '@react-native-firebase/storage';
+import {Flex} from '../../../components/atoms/Layout';
+import {ImageBackground, useWindowDimensions} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import Input from '../../../components/atoms/Input';
 import Toast from 'react-native-toast-message';
@@ -16,20 +15,23 @@ import {SVGRoomTemp, SVGSun, SVGWater} from '../../../../assets';
 import Image from '../../../components/atoms/Image';
 import LinearGradient from 'react-native-linear-gradient';
 import Divider from '../../../components/atoms/Layout/Divider';
-import firestore from '@react-native-firebase/firestore';
 import {Controller, useForm} from 'react-hook-form';
-import {useAuth} from '../../../../services/context/Auth/Auth.context';
 import randomStatus from '../../../../core/utils/randomStatus';
+import {plantsKeys, useAddPlant} from '../../../../core/apis/plants';
+import {useQueryClient} from '@tanstack/react-query';
+import {gardenKeys} from '../../../../core/apis/garden';
 
 const AddPlant = ({route, navigation}) => {
+  const {gardenId} = route.params;
   const {spacing, pallate} = useTheme();
-  const {plants: plantsParams = []} = route?.params || {};
-  const textInputRef = useRef<TextInput>();
-  const {user} = useAuth();
-  const [image, setImage] = useState<string>(
-    'https://firebasestorage.googleapis.com/v0/b/planties-60e81.appspot.com/o/ed-vazquez-GEc9KDwZuxY-unsplash.jpg?alt=media&token=07882a98-7d6c-4c1b-be23-f79961b3ada7',
+  const queryClient = useQueryClient();
+  const [image, setImage] = useState<string>();
+  const [previewImg, setPreviewImg] = useState<string>(
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Flag_of_None.svg/2560px-Flag_of_None.svg.png',
   );
   const [images, setImages] = useState<string[]>([]);
+  const [preview, setPreview] = useState<string[]>([]);
+  const {mutate} = useAddPlant(gardenId);
   const {top} = useSafeAreaInsets();
 
   const status = randomStatus();
@@ -40,7 +42,6 @@ const AddPlant = ({route, navigation}) => {
     control,
     handleSubmit,
     formState: {isSubmitting, isValid},
-    reset,
   } = useForm({
     mode: 'all',
     defaultValues: {
@@ -57,48 +58,48 @@ const AddPlant = ({route, navigation}) => {
             text2: 'Silahkan berikan gambarmu pada gallery..',
           });
           return;
-        }
-        try {
-          const addPlants = {
-            name: data.name,
-            temp: status?.temp,
-            status: status?.status,
-            sunlight: status?.sunlight,
-            watering: status?.watering,
-            image,
-            gallery: images,
-            user_id: user?.uid,
-          };
-
-          console.log(addPlants);
-          await firestore().collection('userPlants').add(addPlants);
-
-          navigation.replace('AddGarden', {
-            plants: [...plantsParams, addPlants],
-          });
-          setImages([]);
-          reset();
-          return;
-        } catch (e) {
+        } else if (!image) {
           Toast.show({
             type: 'error',
             text1: 'Hmm, kami nemu error nih!',
-            text2: (e as Error)?.message || 'Server Sedang Sibuk!',
+            text2: 'Silahkan berikan banner kamu tanaman kamu',
           });
         }
+        Toast.show({
+          type: 'info',
+          text1: 'Mohon ditunggu ya..!',
+          autoHide: false,
+          text2: 'Loading.. Sedang mengirim tanamanmu..',
+        });
+        mutate(
+          {
+            name: data.name,
+            banner: image,
+            photos: images,
+          },
+          {
+            onSuccess() {
+              Toast.show({
+                type: 'success',
+                text1: 'Yey, berhasil nih!',
+                text2: 'Kamu berhasil menambahkan tanaman..',
+              });
+              queryClient.invalidateQueries({
+                queryKey: gardenKeys._def,
+              });
+              navigation.goBack();
+            },
+            onError(e) {
+              Toast.show({
+                type: 'error',
+                text1: 'Hmm, kami nemu error nih!',
+                text2: e?.response?.data?.message || 'Server sedang sibuk...',
+              });
+            },
+          },
+        );
       },
-      [
-        images,
-        image,
-        navigation,
-        plantsParams,
-        reset,
-        status?.status,
-        status?.sunlight,
-        status?.temp,
-        status?.watering,
-        user?.uid,
-      ],
+      [image, images, mutate, navigation, queryClient],
     ),
   );
 
@@ -130,24 +131,17 @@ const AddPlant = ({route, navigation}) => {
     spacing.tiny,
   ]);
 
-  const onPressLibrary = useCallback(async () => {
+  const onPressBannerLib = useCallback(async () => {
     try {
       const result = await launchImageLibrary({
         mediaType: 'photo',
+        includeBase64: true,
       });
       if (result?.assets) {
-        const {uri, fileName} = result.assets[0];
-        const ref = storage().ref(fileName);
+        const {uri, base64} = result.assets[0];
         if (uri) {
-          Toast.show({
-            type: 'info',
-            text1: 'Uploading...',
-            autoHide: false,
-            text2: 'Sedang mengupload gambar ke server',
-          });
-          await ref.putFile(uri);
-          const url = await ref.getDownloadURL();
-          setImage(url);
+          setImage(base64);
+          setPreviewImg(uri);
           Toast.show({
             type: 'success',
             text1: 'Yey, berhasil nih!',
@@ -164,30 +158,58 @@ const AddPlant = ({route, navigation}) => {
     }
   }, []);
 
-  const onPressGallery = useCallback(async () => {
+  const onPressLibrary = useCallback(async () => {
     try {
       const result = await launchImageLibrary({
         mediaType: 'photo',
+        includeBase64: true,
       });
       if (result?.assets) {
-        const {uri, fileName} = result.assets[0];
-        const ref = storage().ref(fileName);
+        const {uri, base64} = result.assets[0];
         if (uri) {
-          Toast.show({
-            type: 'info',
-            text1: 'Uploading...',
-            autoHide: false,
-            text2: 'Sedang mengupload gambar ke server',
-          });
-          await ref.putFile(uri);
-          const url = await ref.getDownloadURL();
-          setImages([...images, url]);
+          setImages(prev => [...prev, base64]);
+          setPreview(prev => [...prev, uri]);
           Toast.show({
             type: 'success',
             text1: 'Yey, berhasil nih!',
             text2: 'Kamu berhasil mengupload foto..',
           });
+          queryClient.invalidateQueries({
+            queryKey: plantsKeys._def,
+          });
         }
+      }
+    } catch (e) {
+      Toast.show({
+        type: 'error',
+        text1: 'Hmm, gagal upload nih!',
+        text2: (e as Error)?.message || 'Server sedang sibuk...',
+      });
+    }
+  }, [queryClient]);
+
+  const onPressGallery = useCallback(async () => {
+    try {
+      const result = await launchImageLibrary({
+        mediaType: 'photo',
+        includeBase64: true,
+      });
+
+      Toast.show({
+        type: 'info',
+        text1: 'Uploading...',
+        autoHide: false,
+        text2: 'Sedang mengupload gambar ke server',
+      });
+      if (result?.assets) {
+        const {uri, base64, fileName} = result.assets[0];
+        setImages(prev => [...prev, base64]);
+        setPreview(prev => [...prev, uri]);
+        Toast.show({
+          type: 'success',
+          text1: 'Yey, berhasil nih!',
+          text2: 'Kamu berhasil mengupload foto..',
+        });
       }
     } catch (e) {
       Toast.show({
@@ -196,7 +218,7 @@ const AddPlant = ({route, navigation}) => {
         text2: (e as Error)?.message || 'Server sedang sibuk...',
       });
     }
-  }, [images]);
+  }, []);
 
   return (
     <Container
@@ -218,14 +240,14 @@ const AddPlant = ({route, navigation}) => {
           height: 200,
         }}
         source={{
-          uri: image,
+          uri: previewImg,
         }}>
         <HStack
           padding={spacing.large}
           justify="flex-end"
           items="flex-end"
           fill>
-          <Pressable onPress={onPressLibrary} self="flex-end">
+          <Pressable onPress={onPressBannerLib} self="flex-end">
             <Icon
               name="IconPhotoEdit"
               size={24}
@@ -399,10 +421,10 @@ const AddPlant = ({route, navigation}) => {
           Gallery
         </Text>
         <HStack
-          spacing={images.length % 2 !== 0 ? spacing.standard : undefined}
-          justify={images.length % 2 === 0 ? 'space-between' : 'flex-start'}
+          spacing={preview?.length % 2 !== 0 ? spacing.standard : undefined}
+          justify={preview?.length % 2 === 0 ? 'space-between' : 'flex-start'}
           wrap>
-          {images?.map((val, index) => (
+          {preview?.map((val, index) => (
             <Image
               margin={{
                 marginBottom: spacing.standard,

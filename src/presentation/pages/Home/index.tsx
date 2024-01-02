@@ -13,18 +13,21 @@ import Icon from '../../components/atoms/Icon';
 import {useAuth} from '../../../services/context/Auth/Auth.context';
 import Text from '../../components/atoms/Text';
 import {ImageBackground, useWindowDimensions} from 'react-native';
-import {useRecommendationPlants} from '../../../core/apis/Plants/usePlants';
 import Pressable from '../../components/atoms/Pressable';
 import currency from '../../../core/utils/currency';
 import Geolocation from '@react-native-community/geolocation';
 import Toast from 'react-native-toast-message';
+import {useGardens} from '../../../core/apis/garden';
+import {usePlantList} from '../../../core/apis/plants';
 
 const Home = ({navigation}) => {
   const {user} = useAuth();
   const {pallate, spacing} = useTheme();
-  const userOxygen = undefined;
-  const categories = undefined;
-  const experts = [];
+  const {data: dataGardens, isLoading, error} = useGardens();
+  const {gardens} = dataGardens?.data.data || {};
+  console.log(gardens, error, isLoading);
+  const {data: dataPlants} = usePlantList();
+  const {plants} = dataPlants?.data.data || {};
   const {width} = useWindowDimensions();
   const [category, setCategory] = useState<{
     filter: string;
@@ -171,7 +174,7 @@ const Home = ({navigation}) => {
         onPressAddPlant={handleAddPlant}
         onPressScan={handleScanPlant}
         onPressGarden={handleGarden}
-        gardens={[]}
+        gardens={gardens}
       />
       <Pressable
         onPress={() => navigation.navigate('Oxygen')}
@@ -198,7 +201,7 @@ const Home = ({navigation}) => {
               Peringkat Kamu
             </Text>
             <Text type="title" color={pallate.info['03']} weight="01">
-              #{user?.rank || 0}
+              #{user?.oxygenRank || 0}
             </Text>
           </HStack>
           <VStack>
@@ -229,72 +232,10 @@ const Home = ({navigation}) => {
         useFilter
         title="Perhatikan Tanamanmu"
         description="Berikan perhatian yang cukup. Ingatlah untuk selalu agar ia tetap tumbuh subur dan cantik.">
-        <HStack
-          padding={{
-            paddingHorizontal: spacing.large,
-          }}
-          spacing={spacing.standard}>
-          <Button
-            text={{
-              type: 'body',
-              weight: '02',
-              text: 'Paling Laris',
-            }}
-            borderRadius={spacing.tiny}
-            backgroundColor={pallate.neutral['01']}
-            trailing={
-              <Icon
-                name="IconArrowsSort"
-                size={14}
-                color={pallate.neutral['05']}
-              />
-            }
-          />
-          <Divider horizontal color={pallate.neutral['04']} thickness={1} />
-          <Flex fill>
-            <FlashList
-              data={categories}
-              extraData={category}
-              horizontal
-              contentContainerStyle={{
-                paddingRight: spacing.extraLarge,
-              }}
-              showsHorizontalScrollIndicator={false}
-              ItemSeparatorComponent={() => (
-                <Divider horizontal thickness={spacing.small} />
-              )}
-              estimatedItemSize={111}
-              ListHeaderComponent={ListHeaderComponentPlants}
-              renderItem={({item}) => (
-                <Button
-                  key={item.key}
-                  onPress={() =>
-                    setCategory({...category, category_id: item.key})
-                  }
-                  text={{
-                    type: 'body',
-                    weight: '02',
-                    color:
-                      category.category_id === item.key
-                        ? pallate.neutral['01']
-                        : pallate.neutral['05'],
-                    text: item.name,
-                  }}
-                  borderRadius={10}
-                  backgroundColor={
-                    category.category_id === item.key
-                      ? pallate.primary['03']
-                      : pallate.neutral['01']
-                  }
-                />
-              )}
-            />
-          </Flex>
-        </HStack>
         <Flex height={200}>
           <FlashList
-            data={[]}
-            extraData={[]}
+            data={plants}
+            extraData={plants}
             horizontal
             contentContainerStyle={{
               paddingHorizontal: spacing.large,
@@ -304,7 +245,7 @@ const Home = ({navigation}) => {
             estimatedItemSize={180}
             renderItem={({item}) => (
               <Card
-                key={item.key}
+                key={item.id}
                 type="plant"
                 name={item.name}
                 onPress={() =>
@@ -313,98 +254,11 @@ const Home = ({navigation}) => {
                     type: 'plants',
                   })
                 }
-                status={item.attention}
+                status={'ok'}
                 onPressAddToCart={() => addToCart(item.key, user.uid)}
                 onPressAddToWishlist={() => {}}
                 source={{
-                  uri: item.images[0],
-                }}
-              />
-            )}
-          />
-        </Flex>
-      </Section>
-      <Section
-        title="Belajar Dari Pakar"
-        description="Konsultasikan tanamanmu dengan pakar ternama.">
-        <HStack
-          padding={{
-            paddingHorizontal: spacing.large,
-          }}
-          spacing={spacing.standard}>
-          <Button
-            text={{
-              type: 'body',
-              weight: '02',
-              text: 'Rekomendasi',
-            }}
-            borderRadius={spacing.tiny}
-            backgroundColor={pallate.neutral['01']}
-            trailing={
-              <Icon
-                name="IconArrowsSort"
-                size={14}
-                color={pallate.neutral['05']}
-              />
-            }
-          />
-          <Divider horizontal color={pallate.neutral['04']} thickness={1} />
-          <Flex fill>
-            <FlashList
-              data={categories}
-              extraData={category}
-              horizontal
-              contentContainerStyle={{
-                paddingRight: spacing.extraLarge,
-              }}
-              showsHorizontalScrollIndicator={false}
-              ItemSeparatorComponent={() => (
-                <Divider horizontal thickness={spacing.small} />
-              )}
-              estimatedItemSize={111}
-              ListHeaderComponent={ListHeaderComponentPlants}
-              renderItem={({item}) => (
-                <Button
-                  key={item.key}
-                  onPress={() =>
-                    setCategory({...category, category_id: item.key})
-                  }
-                  text={{
-                    type: 'body',
-                    weight: '02',
-                    color:
-                      category.category_id === item.key
-                        ? pallate.neutral['01']
-                        : pallate.neutral['05'],
-                    text: item.name,
-                  }}
-                  borderRadius={10}
-                  backgroundColor={
-                    category.category_id === item.key
-                      ? pallate.primary['03']
-                      : pallate.neutral['01']
-                  }
-                />
-              )}
-            />
-          </Flex>
-        </HStack>
-        <Flex height={180}>
-          <FlashList
-            data={experts}
-            horizontal
-            contentContainerStyle={{
-              paddingHorizontal: spacing.large,
-            }}
-            ItemSeparatorComponent={() => <Divider horizontal thickness={20} />}
-            estimatedItemSize={180}
-            renderItem={({item}) => (
-              <Card
-                type="pakar"
-                pakar={item.profileImg}
-                name={item.plantName}
-                source={{
-                  uri: item.plantImg,
+                  uri: item.plantsBanner?.[0],
                 }}
               />
             )}

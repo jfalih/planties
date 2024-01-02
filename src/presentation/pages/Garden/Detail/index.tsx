@@ -1,5 +1,4 @@
 import React, {useCallback, useState} from 'react';
-import {useGardenDetail} from '../../../../core/apis/Plants/useGarden';
 import Container from '../../../components/organisms/Container';
 import {HStack, VStack} from '../../../components/atoms/Layout/Stack';
 import Text from '../../../components/atoms/Text';
@@ -12,16 +11,23 @@ import Divider from '../../../components/atoms/Layout/Divider';
 import {FlashList} from '@shopify/flash-list';
 import Card from '../../../components/molecules/Card';
 import {ScrollView, useWindowDimensions} from 'react-native';
-import {useMedium} from '../../../../core/apis/Plants/useMedium';
-import {useCategories} from '../../../../core/apis/Categories/useCategories';
-import {useRecommendationPlants} from '../../../../core/apis/Plants/usePlants';
 import Image from '../../../components/atoms/Image';
 import {SvgTemp} from '../../../../assets';
+import {useGardenDetail, useDeleteGarden, gardenKeys} from '../../../../core/apis/garden';
+import {usePlantsByGarden} from '../../../../core/apis/plants';
+import Toast from 'react-native-toast-message';
+import Pressable from '../../../components/atoms/Pressable';
+import {useQueryClient} from '@tanstack/react-query';
 
-const Detail = ({route}) => {
+const Detail = ({route, navigation}) => {
   const {id} = route.params;
   const {pallate, spacing} = useTheme();
-  const {data: garden} = useGardenDetail(id);
+  const {data: detailGarden} = useGardenDetail(id);
+  const {data: detailPlant} = usePlantsByGarden(id);
+  const queryClient = useQueryClient();
+  const {mutate} = useDeleteGarden(id);
+  const {garden} = detailGarden?.data?.data || {};
+  const {plants} = detailPlant?.data?.data || {};
   const {width} = useWindowDimensions();
   const [category, setCategory] = useState<{
     filter: string;
@@ -30,37 +36,6 @@ const Detail = ({route}) => {
     filter: '',
     category_id: '',
   });
-
-  const {data} = useRecommendationPlants(category.category_id);
-  const {data: medium} = useMedium();
-  const {data: categories} = useCategories();
-
-  const ListHeaderComponentPlants = useCallback(() => {
-    const isActive = !category.category_id;
-    return (
-      <Button
-        onPress={() =>
-          setCategory({
-            ...category,
-            category_id: null,
-          })
-        }
-        text={{
-          type: 'body',
-          weight: '02',
-          text: 'Semua Tanaman',
-          color: isActive ? pallate.neutral['01'] : pallate.neutral['05'],
-        }}
-        margin={{
-          marginRight: spacing.small,
-        }}
-        borderRadius={10}
-        backgroundColor={
-          isActive ? pallate.primary['03'] : pallate.neutral['01']
-        }
-      />
-    );
-  }, [category, pallate.neutral, pallate.primary, spacing.small]);
 
   const ListEmptyComponentPlants = useCallback(() => {
     return (
@@ -96,6 +71,32 @@ const Detail = ({route}) => {
     width,
   ]);
 
+  const handlePressDelete = useCallback(() => {
+    mutate(
+      {},
+      {
+        onSuccess(res) {
+          Toast.show({
+            type: 'success',
+            text1: 'Yey, berhasil nih!',
+            text2: 'Kamu berhasil menghapus..',
+          });
+          queryClient.invalidateQueries({
+            queryKey: gardenKeys._def,
+          });
+          navigation.goBack();
+        },
+        onError(e) {
+          Toast.show({
+            type: 'error',
+            text1: 'Hmm, kami nemu error nih!',
+            text2: e?.response?.data?.message || 'Server sedang sibuk...',
+          });
+        },
+      },
+    );
+  }, [mutate, navigation, queryClient]);
+
   return (
     <Container
       scrollable
@@ -103,6 +104,20 @@ const Detail = ({route}) => {
         type: 'back',
         title: garden?.name || 'Loading',
       }}>
+      <Pressable
+        self="flex-start"
+        margin={{
+          marginLeft: 24,
+        }}
+        onPress={handlePressDelete}
+        backgroundColor={pallate.danger['05']}
+        borderRadius={8}
+        padding={{
+          paddingVertical: spacing.tiny,
+          paddingHorizontal: spacing.standard,
+        }}>
+        <Text color={pallate.neutral['01']}>Delete</Text>
+      </Pressable>
       <VStack
         spacing={spacing.small}
         margin={spacing.large}
@@ -122,7 +137,7 @@ const Detail = ({route}) => {
                   }}
                   type="subtitles"
                   weight="02">
-                  {garden?.temp}
+                  {garden?.temp || 0}
                 </Text>
                 <Text type="title" weight="02">
                   °C
@@ -130,8 +145,8 @@ const Detail = ({route}) => {
               </HStack>
               <Divider horizontal thickness={spacing.tiny} />
               <VStack>
-                <Text>H: {garden?.tempH}°C</Text>
-                <Text>H: {garden?.tempL}°C</Text>
+                <Text>H: {garden?.tempH || 0}°C</Text>
+                <Text>H: {garden?.tempL || 0}°C</Text>
               </VStack>
               <Divider horizontal thickness={spacing.large} />
               <SvgTemp />
@@ -142,25 +157,25 @@ const Detail = ({route}) => {
           <VStack>
             <Text>Humidity</Text>
             <Text type="title" weight="06">
-              {garden?.humidity}%
+              {garden?.humidity || 0}%
             </Text>
           </VStack>
           <VStack>
             <Text>Precipitation</Text>
             <Text type="title" weight="06">
-              {garden?.precipitation} ml
+              {garden?.precipitation || 0} ml
             </Text>
           </VStack>
           <VStack>
             <Text>Pressure</Text>
             <Text type="title" weight="06">
-              {garden?.pressure} hPa
+              {garden?.pressure || 0} hPa
             </Text>
           </VStack>
           <VStack>
             <Text>Wind</Text>
             <Text type="title" weight="06">
-              {garden?.wind} m/s
+              {garden?.wind || 0} m/s
             </Text>
           </VStack>
         </HStack>
@@ -179,18 +194,18 @@ const Detail = ({route}) => {
               }}
               width={192}
               height={208}
-              source={{uri: garden?.photos[0].image}}
+              source={{uri: garden?.photos[0]}}
             />
             <VStack>
               <Image
                 width={96}
                 height={104}
-                source={{uri: garden?.photos[1].image}}
+                source={{uri: garden?.photos[1]}}
               />
               <Image
                 width={96}
                 height={104}
-                source={{uri: garden?.photos[2].image}}
+                source={{uri: garden?.photos[2]}}
               />
             </VStack>
             <Image
@@ -208,72 +223,34 @@ const Detail = ({route}) => {
       <Section
         title="Tanamanmu"
         description="Berikan perhatian yang cukup. Ingatlah untuk selalu agar ia tetap tumbuh subur dan cantik.">
-        <HStack
-          padding={{
-            paddingHorizontal: spacing.large,
+        <Button
+          onPress={() =>
+            navigation.navigate('AddPlant', {
+              gardenId: id,
+            })
+          }
+          margin={{
+            marginLeft: spacing.large,
           }}
-          spacing={spacing.standard}>
-          <Button
-            text={{
-              type: 'body',
-              weight: '02',
-              text: 'Rekomendasi',
-            }}
-            borderRadius={spacing.tiny}
-            backgroundColor={pallate.neutral['01']}
-            trailing={
-              <Icon
-                name="IconArrowsSort"
-                size={14}
-                color={pallate.neutral['05']}
-              />
-            }
-          />
-          <Divider horizontal color={pallate.neutral['04']} thickness={1} />
-          <Flex fill>
-            <FlashList
-              data={categories}
-              extraData={category}
-              horizontal
-              contentContainerStyle={{
-                paddingRight: spacing.extraLarge,
-              }}
-              showsHorizontalScrollIndicator={false}
-              ItemSeparatorComponent={() => (
-                <Divider horizontal thickness={spacing.small} />
-              )}
-              estimatedItemSize={111}
-              ListHeaderComponent={ListHeaderComponentPlants}
-              renderItem={({item}) => (
-                <Button
-                  key={item.key}
-                  onPress={() =>
-                    setCategory({...category, category_id: item.key})
-                  }
-                  text={{
-                    type: 'body',
-                    weight: '02',
-                    color:
-                      category.category_id === item.key
-                        ? pallate.neutral['01']
-                        : pallate.neutral['05'],
-                    text: item.name,
-                  }}
-                  borderRadius={10}
-                  backgroundColor={
-                    category.category_id === item.key
-                      ? pallate.primary['03']
-                      : pallate.neutral['01']
-                  }
-                />
-              )}
-            />
-          </Flex>
-        </HStack>
+          backgroundColor={pallate.neutral['05']}
+          color={pallate.neutral['01']}
+          text={{
+            type: 'button',
+            text: 'Tambah Tanaman',
+            weight: 'tabItem',
+            color: pallate.neutral['01'],
+          }}
+          icon={{
+            name: 'IconPlant',
+            size: 16,
+            color: pallate.neutral['01'],
+            stroke: 2.5,
+          }}
+        />
         <Flex height={200}>
           <FlashList
-            data={data}
-            extraData={data}
+            data={plants}
+            extraData={plants}
             horizontal
             contentContainerStyle={{
               paddingHorizontal: spacing.large,
@@ -283,13 +260,15 @@ const Detail = ({route}) => {
             estimatedItemSize={180}
             renderItem={({item}) => (
               <Card
-                key={item.key}
+                key={item.name}
                 type="plant"
                 name={item.name}
-                onPress={() => {}}
-                status={item.attention}
+                onPress={() => {
+                  throw new Error('');
+                }}
+                status={'ok'}
                 source={{
-                  uri: item.images[0],
+                  uri: item.banner,
                 }}
               />
             )}

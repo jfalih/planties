@@ -43,12 +43,6 @@ const Logo = (props: HStackProps) => {
         <LogoBlack />
       </Flex>
       <HStack spacing={spacing.medium}>
-        <Pressable>
-          <Icon name="IconHeart" size={24} color={pallate.neutral['05']} />
-        </Pressable>
-        <Pressable>
-          <Icon name="IconBell" size={24} color={pallate.neutral['05']} />
-        </Pressable>
         <Pressable onPress={handleMessage}>
           <Icon name="IconMessage" size={24} color={pallate.neutral['05']} />
         </Pressable>

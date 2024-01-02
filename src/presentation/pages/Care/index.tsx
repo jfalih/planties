@@ -7,7 +7,6 @@ import Divider from '../../components/atoms/Layout/Divider';
 import SearchBar from '../../components/atoms/SearchBar';
 import {Box, Flex} from '../../components/atoms/Layout';
 import {FlashList} from '@shopify/flash-list';
-import useGardens from '../../../core/apis/Plants/useGarden';
 import {SVGWater} from '../../../assets';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from '../../components/atoms/Icon';
@@ -20,7 +19,7 @@ import Geolocation, {
 
 const Care = ({navigation}) => {
   const {spacing, pallate} = useTheme();
-  const {data: gardens} = useGardens();
+  const {data: gardens} = undefined;
   const [position, setPosition] = useState<GeolocationResponse>();
   const {data: weathers} = useWeather({
     lat: position?.coords?.latitude,

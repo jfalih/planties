@@ -9,14 +9,20 @@ import Shop from '../../presentation/pages/Shop';
 import Scan from '../../presentation/pages/Scan';
 import Care from '../../presentation/pages/Care';
 import Community from '../../presentation/pages/Community';
+import {useCart} from '../../core/apis/cart';
 
 const Tab = createBottomTabNavigator();
 
 const BottomNavigation = () => {
   const theme = useTheme();
+  const {data: carts} = useCart();
+  const {cartItems} = carts?.data.data || {};
+
   return (
     <Tab.Navigator
-      tabBar={props => <BottomTabBar {...props} theme={theme} />}
+      tabBar={props => (
+        <BottomTabBar cart={cartItems} {...props} theme={theme} />
+      )}
       screenOptions={{headerShown: false}}>
       <Tab.Screen
         options={{
@@ -61,11 +67,11 @@ const BottomNavigation = () => {
       <Tab.Screen
         options={{
           tabBarIcon: ({color, size}) => (
-            <Icon name="IconSocial" color={color} size={size} />
+            <Icon name="IconUser" color={color} size={size} />
           ),
           unmountOnBlur: true,
         }}
-        name="Community"
+        name="Profile"
         component={Community}
       />
     </Tab.Navigator>
